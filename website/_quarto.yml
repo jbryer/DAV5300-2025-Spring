@@ -1,0 +1,114 @@
+project:
+  type: website
+  output-dir: "../docs/"
+  render:
+  - "*.qmd"
+  - "!static/"
+  post-render:
+    - "cp -rf static/ ../docs/static/"
+
+website:
+  page-navigation: true
+  title: "DAV 5300 Fall 2024"
+  description: "DATA 606 - Computational Math and Statistics - Yeshiva University"
+  site-url: "https://fall2024.dav5300.net/"
+
+  repo-url: https://github.com/jbryer/DAV5300-2024--Fall
+  repo-actions: [edit, issue]
+
+  open-graph: true
+
+  page-footer:
+    # right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
+    # left: "&copy; Copyright 2024, Jason Bryer"
+    background: "#325A89"
+
+  sidebar:
+    background: "#325A89"
+    logo: "images/course_logo.png"
+    pinned: true
+    align: center
+    # List of available icons: https://icons.getbootstrap.com
+    tools:
+      - icon: calendar-check
+        href: course/schedule.qmd
+        text: "Schedule"
+      - icon: github
+        href: https://github.com/jbryer/DAV5300-2024--Fall
+        text: "Github"
+        target: _blank
+      - icon: link-45deg
+        text: "Yeshiva University"
+        menu:
+          - text: Canvas
+            url: https://yu.instructure.com
+            target: _blank
+          - text: Program Page
+            url: https://www.yu.edu/katz/data-analytics
+            target: _blank
+      - icon: envelope
+        text: "Email"
+        url: mailto:jason.bryer@yu.edu?subject=DAV5300
+
+    style: "docked"
+    search: true
+    collapse-level: 2
+    contents:
+      - href: "index.qmd"
+        text: "Announcements"
+      - href: "course/schedule.qmd"
+        text: "Schedule"
+      - section: "Course information"
+        contents:
+          - href: "course/syllabus.qmd"
+            text: "Syllabus"
+          - href: "course/instructor.qmd"
+            text: "Instructor"
+          - href: "course/textbooks.qmd"
+            text: "Textbooks"
+          - href: "course/software.qmd"
+            text: "Software"
+          - href: "course/materials.qmd"
+            text: "Materials"
+          - href: "assignments/project.qmd"
+            text: "Data Project"
+      - section: "Topics"
+        contents:
+          - href: chapters/chapter1.qmd
+            text: "1 - Intro to Data"
+          - href: chapters/chapter2.qmd
+            text: "2 - Summarizing Data"
+          - href: chapters/chapter3.qmd
+            text: "3 - Probability"
+          - href: chapters/chapter4.qmd
+            text: "4 - Distributions"
+          - href: chapters/chapter5.qmd
+            text: "5 - Foundations for Inference"
+          - href: chapters/chapter6.qmd
+            text: "6 - Inference for Categorical Data"
+          - href: chapters/chapter7.qmd
+            text: "7 - Inference for Numerical Data"
+          - href: chapters/chapter8.qmd
+            text: "8 - Linear Regression"
+          - href: chapters/chapter9.qmd
+            text: "9 - Multiple and Logistic Regression"
+          - href: chapters/bayesian.qmd
+            text: "Bayesian"
+
+format:
+  html:
+    theme:
+      light: [cosmo, theme.scss]
+      dark: [cosmo, theme-dark.scss]
+    mainfont: "Atkinson Hyperlegible"
+    code-copy: true
+    code-overflow: wrap
+    toc: false
+    include-in-header:
+      text: |
+        <link href="/fullcalendar-lib/main.css" rel="stylesheet" />
+        <script type="text/javascript" src="/fullcalendar-lib/main.js"></script>
+
+freeze: false
+
+editor: source

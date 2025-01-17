@@ -1,0 +1,80 @@
+---
+title: "Syllabus"
+---
+
+```{r, echo=FALSE, results='hide', message=FALSE, error=FALSE, warning=FALSE}
+source('../../config.R')
+```
+
+**Instructor:** Jason Bryer, Ph.D.  
+**Class Meetup:** Tuesdays (5:30pm to 7:30pm or 7:45pm to 9:45pm)  
+**Office Hours:** By appointment  
+**Email:** <a href="mailto:jason.bryer@yu.edu">jason.bryer@yu.edu</a>
+
+
+### Course Description
+
+Deeper math literacy and computational thinking are essential for deeper data literacy. Probability, statistics, and mathematics—especially fundamental linear algebra—are critical to the success of data analysts as they implement increasingly complex solutions. This course is designed to give the non-mathematician practice using mathematical and statistical computational methods in the service of data analytic solutions.
+
+### Attendance
+
+You are expected to attend class to learn the material for the course. Attendance will be recorded for each session. While one absence will not be a problem, several absences will be. That said, if your circumstances warrant missing class, please discuss with me as soon as possible.
+
+
+### Course Learning Outcomes:
+
+By then end of the course, students should be able to:
+
+* Understand the foundations of probability theory and perform basic probability calculations.
+* Model situations involving uncertainty using appropriate probability distributions and conditional techniques.
+* Explore and summarize data using descriptive statistics.
+* Test hypotheses using classical and modern computational techniques.
+* Construct estimators and calculate intervals using classical and modern computational techniques.
+* Perform basic Bayesian statistical techniques for estimation and testing hypotheses.
+
+### Assignments and Grading
+
+You will be assessed using a variety of methods, namely:
+
+**Labs** (30%) - Labs are designed to provide you an opportunity to apply statistical concepts using statistical software.
+
+**Textbook questions** (15%) - The assigned questions from the textbook provide an opportunity to assess conceptional understandings. Questions are from the *Exercises* section at the end of each chapter.
+
+**Participation** (10%) - You are expected to attend every class and to complete a [one minute paper](`r one_minute_paper`) at the conclusion of class.
+
+**Data Project** (25%) - In a group of 2 to 3 students will present the results of analysis using a data set of your choice. More details will be provided a few weeks into the class.
+
+**Final exam** (20%) - A multiple choice exam will be given on the last day of class.
+
+**All assignments are due on Tuesday** Assignments submitted late will be penalized. Assignments will not be accepted more than one week after their due date.
+
+The following grading scale will be used for this class.
+
+| Quality of Performance                     | Letter | Grade Range (%) | GPA/Quality Points |
+|--------------------------------------------|--------|-----------------|--------------------|
+| Excellent - work is of exceptional quality | A.     | 93 – 100.       | 4.0                |
+|                                            | A.     | 90 – 92.9.      | 3.7                |
+| Good - work is above average               | B+.    | 87 – 89.9.      | 3.3                |
+| Satisfactory                               | B      | 83 – 86.9       | 3.0                |
+| Below Average                              | B-     | 80 – 82.9       | 2.7                |
+| Poor                                       | C+     | 77 – 79.9       | 2.3                |
+|                                            | C      | 70 – 76.9       | 2.0                |
+| Failure                                    | F      | < 70            | 0.0                |
+
+
+
+### University Policies and Resources
+
+
+#### Accessibility and Accomodations
+
+The Office of Disability Services collaborates with students, faculty, and staff to provide reasonable accommodations and services to students with disabilities. Students with disabilities who are enrolled in this course and who will be requesting documented disability-related accommodations should make an appointment with the Office of Disability Services, during the first week of class. Once you have been approved for accommodations, please submit your accommodation letter to ensure the successful implementation of those accommodations. For more information, please visit http://yu.edu/Student-Life/Resources-and-Services/Disability-Services/Links to an
+external site.
+
+
+#### Academic Integrity
+
+The submission by a student of any examination, course assignment, or degree requirement is assumed to guarantee that the thoughts and expressions therein not expressly credited to another are literally the student's own. Evidence to the contrary will result in appropriate penalties. For more information, visit https://www.yu.edu/academic-integrity.
+
+With the exception of the data project, I expect you to complete all assignments (e.g. homework, labs) on your own. It is fine to ask questions of your peers and professor, but working together and/or sharing answers is not allowed
+

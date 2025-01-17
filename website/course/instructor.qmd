@@ -1,0 +1,19 @@
+---
+title: "Instructors"
+---
+
+
+<img src='/images/Headshot_Cartoon.jpg' width='200' align='left' style = 'padding-right: 20px' />
+
+**Jason Bryer, Ph.D.**  
+**Email:** [jason.bryer@cuny.edu](mailto:jason.bryer@cuny.edu)  
+
+I am currently an Assistant Professor and Associate Director in the Data Science and Information Systems department at the City University of New York. I am also the Principal Investigator of the FIPSE ($3 million #P116F150077) and IES funded ($3.8 million R305A210269) [Diagnostic Assessment and Achievement of College Skills](https://daacs.net) (DAACS), which is a suite of technological and social supports designed to optimize student learning. My other research interests include quasi-experimental designs with an emphasis on propensity score analysis, data systems to support formative assessment, and the use of open source software for conducting reproducible research. I have authored over a dozen R packages, including three related to conducting propensity score analyses. 
+
+
+### Contact
+
+Office Hours before or after class or by appointment. You're encouraged to schedule an appointment and I have time nearly everyday.
+
+For the most part, you can expect me to respond to questions by email within 24 hours. If you do not hear back from me within 48 hours of sending an email, please resend your message. I will be checking in on the course regularly, just about every day and likely several times each day. Please do not hesitate to ask if you have questions or concerns.
+
