@@ -9,11 +9,11 @@ project:
 
 website:
   page-navigation: true
-  title: "DAV 5300 Fall 2024"
-  description: "DATA 606 - Computational Math and Statistics - Yeshiva University"
-  site-url: "https://fall2024.dav5300.net/"
+  title: "DAV 5300 Spring 2025"
+  description: "DAV5300 - Computational Math and Statistics - Yeshiva University"
+  site-url: "https://spring2025.dav5300.net/"
 
-  repo-url: https://github.com/jbryer/DAV5300-2024--Fall
+  repo-url: https://github.com/jbryer/DAV5300-2025-Spring
   repo-actions: [edit, issue]
 
   open-graph: true
