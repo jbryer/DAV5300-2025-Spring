@@ -5,6 +5,7 @@ install.packages(c("devtools", "tidyverse", "knitr", "likert", "tm", "SnowballC"
 				   "hexSticker", "showtext"))
 install.packages('pdftools')
 
+options(timeout = 1000)
 remotes::install_github('jbryer/DATA606')
 remotes::install_github('jbryer/VisualStats')
 remotes::install_github("ropenscilabs/icon")

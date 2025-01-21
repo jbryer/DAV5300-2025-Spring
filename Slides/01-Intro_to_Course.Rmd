@@ -255,7 +255,6 @@ The submission by a student of any examination, course assignment, or degree req
 
 
 ---
-
 # Communication
 
 * Email: [jason.bryer@yu.edu](mailto:jason.bryer@yu.edu).
@@ -263,6 +262,8 @@ The submission by a student of any examination, course assignment, or degree req
 * Canvas
 
 * Office hours before and after class and by appointment.
+
+* Slack
 
 ---
 class: inverse, middle, center

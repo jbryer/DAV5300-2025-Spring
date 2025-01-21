@@ -21,10 +21,11 @@ website:
   page-footer:
     # right: "This page is built with ❤️ and [Quarto](https://quarto.org/)."
     # left: "&copy; Copyright 2024, Jason Bryer"
-    background: "#325A89"
+    background: "#b4c8e0"
 
   sidebar:
-    background: "#325A89"
+    # background: "#325A89"
+    background: "#b4c8e0"
     logo: "images/course_logo.png"
     pinned: true
     align: center
@@ -37,6 +38,9 @@ website:
         href: https://github.com/jbryer/DAV5300-2024--Fall
         text: "Github"
         target: _blank
+      - icon: slack
+        href: https://dav5300spring2025.slack.com
+        text: "Slack"
       - icon: link-45deg
         text: "Yeshiva University"
         menu:
