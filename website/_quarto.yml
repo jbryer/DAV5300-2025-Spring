@@ -8,6 +8,13 @@ project:
     - "cp -rf static/ ../docs/static/"
 
 website:
+  announcement:
+    content: "[Click here](https://join.slack.com/t/dav5300spring2025/shared_invite/zt-2yja0zs7k-GCJTqNKlLNgYYmetdl~OMw) to the join the Slack channel."
+    # position: below-navbar # above-navbar or below-navbar
+    icon: slack #info-circle # https://icons.getbootstrap.com
+    dismissable: false
+    type: primary # primary, secondary, success, danger, warning, info, light, dark
+
   page-navigation: true
   title: "DAV 5300 Spring 2025"
   description: "DAV5300 - Computational Math and Statistics - Yeshiva University"

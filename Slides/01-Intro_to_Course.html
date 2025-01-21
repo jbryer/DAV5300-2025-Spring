@@ -103,12 +103,21 @@ class: font120
 ---
 
 # And photographer.
-
 &lt;img src="images/Sleeping_Empire.jpg" width="80%" style="display: block; margin: auto;" /&gt;
+
+---
+# Your turn...
+
+What is your name?
+
+What program are you in?
+
+What are your career goals?
+
+Something unique about you (e.g. hobby, interest, favorite movie)?
 
 
 ---
-
 # Syllabus &lt;img src="images/hex/rmarkdown.png" class="title-hex"&gt;&lt;img src="images/hex/blogdown.png" class="title-hex"&gt;
 
 .pull-left[
@@ -344,6 +353,24 @@ tinytex::install_tinytex()
 ```
 
 ---
+class: font80
+# Clean Environment Between Sessions
+
+.pull-left[
+By default RStudio will ask you to save your session when closing the application. Additionally, if the `.RData` file exists in the project directory, data saved in that file will be loaded into your session. *I highly recommend turning this off.* Doing so will ensure you have a clean environment everytime you start RStudio.
+
+* In RStudio, click the `Tools` menu then `Global Options`
+* Uncheck *"Restore .RData into workspace at startup"*
+* For *"Save worksopace to .RData on exit"* select "Never"
+
+**Why do this?** Whenever you knit a document (e.g. Rmarkdow, Quarto) R will create a new, blank, session to knit the document. When working interactively it is easy to run commands out of order. It is alwasy good to check your work by resetting your environment (click `Session` --&gt; `Restart R`) and running your commands in order to ensure everyting will work as intended.
+]
+.pull-right[
+![RStudio Options](images/RStudio_Options.png)
+]
+
+
+---
 class: inverse, middle, center
 # Introduction to R
 
@@ -411,7 +438,7 @@ To load the load the `legosets` dataset.
 data('legosets', package = 'brickset')
 ```
 
-The `legosets` data has 19409 observations of 36 variables.
+The `legosets` data has 20420 observations of 36 variables.
 
 .code70[
 
@@ -446,7 +473,7 @@ str(legosets)
 ```
 
 ```
-## 'data.frame':	19409 obs. of  36 variables:
+## 'data.frame':	20420 obs. of  36 variables:
 ##  $ setID                : int  7693 7695 7697 7698 25534 7418 7419 6020 22704 7421 ...
 ##  $ number               : chr  "1" "2" "3" "4" ...
 ##  $ numberVariant        : int  8 8 6 4 6 1 1 1 3 4 ...
@@ -498,8 +525,8 @@ class: hide-logo
 
 .font60[
 
-<div class="datatables html-widget html-fill-item" id="htmlwidget-6a7b0e84d5968dda491c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-6a7b0e84d5968dda491c">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[828,31507,23448,26813,8686,24510,4439,10773,1371,27054,26369,4767,30274,9243,33946,32534,1252,9905,31341,3831,26221,6272,26666,3324,23098,23864,26282,9945,7686,32326,25953,9972,33949,33886,24224,23405,31718,23095,6121,7149,771,2729,29667,24271,30887,2461,3381,15482,29543,2605,34482,31932,30797,8444,30437,7947,7385,8566,31713,40,10285,32203,28910,4227,8238,6820,45488,2085,47124,4895,23758,6722,10110,2003,27305,6879,29922,26953,7152,34450,27877,6584,27158,22814,29120,22613,32299,23439,30750,23685,23130,27746,27314,23803,29129,28556,31678,24168,8061,28908],["Building Ideas Book","LEGOLAND® Water Park","Bracelets","Salvage M.E.C., Extra Awesome Edition","LEGO Classic Logo Magnet","Sith Infiltrator","9V Motor Set ","Bonus/Value Pack","Fire Fighting Launch","Ultimate LEGO Star Wars: Characters Creatures Locations Technology Vehicles","TIE Bomber","Big LEGO Box 1000","Peek-A-Boo Playmat","Classic Brick Kids Watch","Summer Wave","4 Stud Desk Drawer Black","Sly Boot's Car","BULK","Stunt Show Truck","Millennium Falcon","Wildlife - Polar Bear","EZ-Roadster","Batgirl","4WD Police Patrol","Merida's Highland Games","Drillex Diamond Job","Lloyd Minifigure Alarm Clock","4-stud Blue Storage Brick","Freeing Dobby","Lloyd Suit Mech","WeDo 2.0 Motion Sensor","Superman: Black Zero Escape","Brick Wallet","Character Pack Series 5 - Sealed Box","Poe's X-wing Fighter","Clubhouse Cafe","Typewriter","NinjaCopter","Town Centre Set with Roadways","Lava Dragon ","The Ladybird Rattle","Large Quatro Bucket","Blizzard Samurai","Forx","Toad's Special Hideaway","Basic Building Set, 5+","Blaze Commander","Bonus/Value Pack","Expanding the LEGO Winter Village, Volume 2","Green Bricks Assorted","Moana &amp; Merida","Majestic Tiger","Wiggler's Poison Swamp","Hula Dancer","China Flower Girl Key Chain","Blackboard and School Desk","Mobile Site Office","World Grand Prix","Mini Adidas Originals Superstar","Windows and Doors","Dusty and Chug","1950's Retro Tin Sign","Apocalypse Benny","Nitro Stunt Bike","Airport Building Set","Ferrari F1 Racers","Igloo Holiday Adventure","Auto Pod","Modified Race Cars","Levers Set","Green Lantern vs. Sinestro","Santa Gift Wrap and Tags","Airport","Creator Box Set","Superman &amp; Krypto Team-Up","Duplo 3-Piece Bedding Set Green - Baby","Duke DeTain Key Chain","The LEGO Batman Movie Super Pack 2-in-1","Lunar Command ","Disney Princess Creative Castles","Ninjago Movie Play &amp; Display Case","{snowmobile}","Mr. Spry and His Lemonade Stand","LEGO Belkin Brand iPhone 5 Builder Case Yellow/Red","Emmet's Triple-Decker Couch Mech","Pump cylinder","Freezie","Riverside Raid","Space Shuttle Adventure","Research Institute","Interface A","LME Replacement Pack 1","Deadpool Duck","Santa Set","Dilophosaurus on the Loose","Captain Marvel and The Skrull Attack","{Spacecraft}","Demolition Driller","LEGO Harry Potter: Years 1-4 Video Game","Watermelon Dude"],[1975,2021,2014,2016,2011,2015,1990,2005,1978,2017,2016,2005,1999,2011,2022,2022,1998,2013,2021,2000,2016,2008,2016,2000,2014,2015,2016,2012,2010,2022,2016,2013,2021,2022,2015,2014,2021,2014,1972,2009,1997,2004,2019,2015,2020,1987,1995,2006,2019,1999,2023,2022,2021,2011,2020,1973,1971,2011,2021,2002,2013,2021,2019,2003,2011,2009,2023,2004,2023,1993,2015,2007,1990,2002,2018,2008,2020,2017,2009,2023,2018,2000,2017,2013,2019,1983,2022,2014,2021,2014,1986,2015,2017,2014,2019,2019,1996,2015,2010,2019],["Books","Promotional","Friends","Ninjago","Gear","Star Wars","Technic","Bionicle","LEGOLAND","Books","Star Wars","Creator","Primo","Gear","Promotional","Gear","Adventurers","HERO Factory","City","Star Wars","Duplo","Racers","DC Super Hero Girls","Town","Disney","Ultra Agents","Gear","Gear","Harry Potter","Ninjago","Education","DC Comics Super Heroes","Gear","Super Mario","Star Wars","Duplo","Ideas","Ninjago","LEGOLAND","Games","Primo","Quatro","Ninjago","Mixels","Super Mario","Basic","Town","Star Wars","Books","Service Packs","BrickHeadz","Creator","Super Mario","Collectable Minifigures","Gear","Homemaker","LEGOLAND","Duplo","Icons","Bulk Bricks","Duplo","Gear","Collectable Minifigures","Racers","Bricks and More","Racers","Friends","Creator","City","Dacta","DC Comics Super Heroes","Gear","Duplo","Creator","DC Comics Super Heroes","Gear","Gear","The LEGO Batman Movie","Games","Disney","Gear","Town","Elves","Gear","The LEGO Movie 2","Service Packs","Super Mario","Ultra Agents","Creator","Ideas","Dacta","Education","Marvel Super Heroes","Seasonal","Jurassic World","Marvel Super Heroes","Space","City","Gear","Collectable Minifigures"],["Miscellaneous","Miscellaneous","Modern day","Action/Adventure","Miscellaneous","Licensed","Technical","Constraction","Vintage","Miscellaneous","Licensed","Model making","Pre-school","Miscellaneous","Miscellaneous","Miscellaneous","Historical","Constraction","Modern day","Licensed","Pre-school","Racing","Licensed","Modern day","Licensed","Action/Adventure","Miscellaneous","Miscellaneous","Licensed","Action/Adventure","Educational","Licensed","Miscellaneous","Licensed","Licensed","Pre-school","Miscellaneous","Action/Adventure","Vintage","Miscellaneous","Pre-school","Pre-school","Action/Adventure","Miscellaneous","Licensed","Basic","Modern day","Licensed","Miscellaneous","Miscellaneous","Licensed","Model making","Licensed","Miscellaneous","Miscellaneous","Vintage","Vintage","Pre-school","Model making","Basic","Pre-school","Miscellaneous","Miscellaneous","Racing","Basic","Racing","Modern day","Model making","Modern day","Educational","Licensed","Miscellaneous","Pre-school","Model making","Licensed","Miscellaneous","Miscellaneous","Licensed","Miscellaneous","Licensed","Miscellaneous","Modern day","Action/Adventure","Miscellaneous","Licensed","Miscellaneous","Licensed","Action/Adventure","Model making","Miscellaneous","Educational","Educational","Licensed","Miscellaneous","Licensed","Licensed","Action/Adventure","Modern day","Miscellaneous","Miscellaneous"],["Book","Normal","Extended","Collection","Gear","Normal","Normal","Collection","Normal","Book","Other","Normal","Normal","Gear","Other","Gear","Normal","Normal","Normal","Normal","Normal","Normal","Other","Normal","Normal","Normal","Gear","Gear","Normal","Normal","Normal","Normal","Gear","Collection","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Other","Normal","Normal","Normal","Normal","Collection","Book","Normal","Normal","Normal","Normal","Normal","Gear","Normal","Normal","Normal","Normal","Normal","Normal","Gear","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Gear","Normal","Normal","Normal","Gear","Gear","Collection","Normal","Normal","Gear","Normal","Other","Gear","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Extended","Other","Extended","Normal","Normal","Normal","Normal","Gear","Normal"],[null,null,null,null,3.99,89.98999999999999,null,null,null,null,null,null,null,24.99,null,13.99,null,9.99,69.98999999999999,null,null,4.99,null,null,19.99,29.99,29.99,24.99,10.99,null,null,19.99,null,5.99,79.98999999999999,12.99,249.99,59.99,null,14.99,null,null,null,4.99,null,null,null,null,null,null,19.99,49.99,39.99,2.99,5.99,null,null,39.99,null,7.99,14.99,null,null,null,19.99,14.99,49.99,null,29.99,null,19.99,null,null,null,19.99,null,5.99,null,null,34.99,null,null,null,29.99,29.99,null,null,11.99,39.99,19.99,null,null,null,7.99,19.99,29.99,null,null,49.99,null],[1,360,20,439,null,662,57,108,133,null,26,1000,4,null,39,null,24,50,420,663,4,45,5,30,145,312,null,null,73,59,1,168,null,null,717,16,2079,516,336,131,1,75,3,65,120,56,50,437,null,62,410,755,374,8,null,90,51,35,92,44,16,null,8,92,310,139,491,39,359,62,174,null,15,500,199,null,null,378,271,140,null,50,19,null,312,1,null,88,486,165,3,70,3,27,168,307,null,40,null,6],[null,5,null,null,null,8,null,null,null,null,null,null,null,null,null,null,1,null,4,6,null,null,null,1,1,2,null,null,3,1,null,3,null,null,4,null,null,4,null,4,null,null,1,null,1,null,1,null,null,null,null,null,3,1,null,null,null,3,1,null,2,null,1,null,2,null,3,null,2,null,3,null,2,null,2,null,null,null,6,2,null,null,null,null,3,null,1,2,1,3,null,null,1,2,3,3,null,1,null,1],[0,0,0,0,0,4.1,3.9,0,0,4.5,3.6,0,0,0,0,0,0,3.5,3.9,4.1,0,3.4,0,2.9,3.6,4,0,0,3.6,3.5,0,3.1,0,0,4.3,0,4.5,4,0,3.6,0,0,3.9,3.6,4,0,3.4,0,0,0,4.2,4.6,3.9,3.6,0,0,0,0,3.6,0,0,3.8,4.2,0,0,3.4,0,3.6,0,0,3.9,0,0,0,4,0,0,0,3.2,0,0,0,0,0,3.9,0,3.5,3.6,4,3.9,0,0,0,3.2,3.6,3.6,0,3.4,0,3.7]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>setID<\/th>\n      <th>name<\/th>\n      <th>year<\/th>\n      <th>theme<\/th>\n      <th>themeGroup<\/th>\n      <th>category<\/th>\n      <th>US_retailPrice<\/th>\n      <th>pieces<\/th>\n      <th>minifigs<\/th>\n      <th>rating<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,3,7,8,9,10]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"setID","targets":1},{"name":"name","targets":2},{"name":"year","targets":3},{"name":"theme","targets":4},{"name":"themeGroup","targets":5},{"name":"category","targets":6},{"name":"US_retailPrice","targets":7},{"name":"pieces","targets":8},{"name":"minifigs","targets":9},{"name":"rating","targets":10}],"order":[],"autoWidth":false,"orderClasses":false},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-f977c6b4c39b007a36b1" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f977c6b4c39b007a36b1">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100"],[3391,6637,2382,6394,10181,6575,34134,25633,8767,1941,1603,527,7617,47076,3874,27135,1610,28407,3316,9445,2057,33572,3727,31747,3152,29368,28256,6622,23943,24478,32486,32400,50322,137,540,7066,9311,13680,23512,26028,9211,6963,31027,6294,29154,575,22745,10044,27513,26445,34353,28061,437,28423,8305,29036,32442,30302,24813,31449,29365,48598,2167,5564,6634,29157,27921,8446,26809,31879,4229,24793,7918,48541,719,25718,30288,48790,1385,92,49090,3267,29354,3197,8319,7297,9868,31058,23184,6576,26936,3690,34355,23308,50537,7842,9336,26315,2962,31182],["Diesel Dumper","Twinpocket Portfolio","Space Command Center","XL-Motor","Plumber","Give Away","LEGO Star Wars: The Skywalker Saga - PlayStation 5","The Glob Lobber","LEGO Pirates of the Caribbean: The Video Game - Nintendo DS","Record and Play","Mini-Sonic","Pen R2-D2","Motorbike","Nya and Arin's Baby Dragon Battle","TIE Fighter and Y-wing","Batman Minifigure Alarm Clock","Funny Crocodile","Monastery Training","Aerial Recovery","I Brick LEGOLAND Magnet (Male)","Blue Spaceman Key Chain","Dinosaur Market","Solar Power Transporter","Kai","Trees and Flowers","TLM2 Tumbler with Straw","LEGO Banana Guy Luggage Tag","Letters Set","Nurp-Naut","Production Kladno Campus 2015","Friends Tin Sign","The Justifier ","George Pig","Race Buggy","Pen Pahrak","Belville Lunch Box","Animal and Vehicle","Bonus/Value Pack","R2 D2 Astromech Droid","Batman &amp; Superman vs. Lex Luthor","Pirates of the Caribbean Jack Sparrow Minifigure Clock ","Space Speeder","World Map","Mini Vehicles","Minifigure box","Airline Maintenance Vehicle with Trailer","Yoda Magnet","Mini Box Yellow","The Farm Cottage ","Naida's Gondola &amp; the Goblin Thief","Cat Hotel","Shades Unikitty","Danone Delivery Truck","Diving Yacht","Cursed Cobra Statue","Empire State Building","Butterfly 46 in x 60 in Throw","Desert Pokey","Farm Super Pack 3-in-1","Heartlake City Grand Hotel","LEGO Friends Hair Accessory Set","'Revenge of the Cheese Slope' Poster","Titan XP","Fast Flyers","LEGO Classic Notebook","Bonus/Value pack","Stephanie's Lakeside House","Samurai Warrior","Halloween Shop","Luigi Key Chain","Williams F1 Team Racer","Rebel Alliance Battle Pack","Farm {Random Bag}","Mercedes-AMG F1 W14 E Performance","Clarence Caterpillar and Friends Gift Set","The Unofficial LEGO MINDSTORMS NXT Inventor's Guide","Nya","LEGO Minifigure Photography","Living Room","NHL Action Set with Stickers","Alien Planet Habitat","Cabana Beach","AT-ST Raider","Monorail Accessory Track","Mandalorian Battle Pack","Christmas Tree","Monster Fighters promotional pack","5-Minute LEGO Builds","Helicopter Transporter","Good Guy 07","My First Fish","Orion II Hyperspace","Panda Bear","Infearno Interception","Treasure Chest","Universal set for boys and girls","Clone Turbo Tank (non-light-up, 2006 edition)","9 Pack Gel Pen Set","Expedition Balloon","BrickJournal Compendium 2"],[1991,2008,1978,2008,2013,2006,2022,2016,2011,2003,1998,2002,2010,2023,2004,2017,2003,2019,1998,2012,2004,2022,1985,2021,1980,2019,2018,2008,2015,2015,2022,2022,2024,1999,2002,2009,2011,2005,2014,2016,2011,2009,2021,2008,2019,1992,2013,2012,2018,2017,2023,2018,1980,2019,2011,2019,2022,2020,2015,2021,2019,2023,2004,2007,2008,2019,2018,2011,2016,2021,2003,2016,2010,2024,1998,2007,2020,2023,1997,2003,2024,1994,2019,1991,2011,2009,2012,2021,2014,2007,2017,1987,2023,2014,2024,1980,2006,2016,1999,2009],["Town","Gear","Space","Power Functions","Collectable Minifigures","Bionicle","Gear","Nexo Knights","Gear","Creator","Znap","Gear","Technic","Ninjago","Star Wars","Gear","Explore","Ninjago","Town","Gear","Gear","Jurassic World","Space","Ninjago","Town","Gear","Gear","Education","Mixels","Miscellaneous","Gear","Star Wars","Duplo","Town","Gear","Gear","Miscellaneous","Castle","Gear","Juniors","Gear","Space","Art","Creator","Promotional","Town","Gear","Gear","Minecraft","Elves","Friends","Unikitty","Town","City","Pharaoh's Quest","Architecture","Gear","Super Mario","Duplo","Friends","Gear","Gear","Creator","Creator","Gear","City","Juniors","Collectable Minifigures","Friends","Gear","Racers","Star Wars","Duplo","Technic","Primo","Books","Ninjago","Books","Scala","Sports","Miscellaneous","Town","Star Wars","Town","Star Wars","Creator","Monster Fighters","Books","City","Bionicle","Duplo","Space","Creator","Ultra Agents","Miscellaneous","Dacta","Star Wars","Gear","Adventurers","Books"],["Modern day","Miscellaneous","Action/Adventure","Technical","Miscellaneous","Constraction","Miscellaneous","Action/Adventure","Miscellaneous","Model making","Technical","Miscellaneous","Technical","Action/Adventure","Licensed","Miscellaneous","Pre-school","Action/Adventure","Modern day","Miscellaneous","Miscellaneous","Licensed","Action/Adventure","Action/Adventure","Modern day","Miscellaneous","Miscellaneous","Educational","Miscellaneous","Miscellaneous","Miscellaneous","Licensed","Pre-school","Modern day","Miscellaneous","Miscellaneous","Miscellaneous","Historical","Miscellaneous","Junior","Miscellaneous","Action/Adventure","Art and crafts","Model making","Miscellaneous","Modern day","Miscellaneous","Miscellaneous","Licensed","Action/Adventure","Modern day","Licensed","Modern day","Modern day","Historical","Model making","Miscellaneous","Licensed","Pre-school","Modern day","Miscellaneous","Miscellaneous","Model making","Model making","Miscellaneous","Modern day","Junior","Miscellaneous","Modern day","Miscellaneous","Racing","Licensed","Pre-school","Technical","Pre-school","Miscellaneous","Action/Adventure","Miscellaneous","Girls","Modern day","Miscellaneous","Modern day","Licensed","Modern day","Licensed","Model making","Action/Adventure","Miscellaneous","Modern day","Constraction","Pre-school","Action/Adventure","Model making","Action/Adventure","Miscellaneous","Educational","Licensed","Miscellaneous","Historical","Miscellaneous"],["Normal","Gear","Normal","Normal","Normal","Normal","Gear","Normal","Gear","Normal","Normal","Gear","Normal","Normal","Normal","Gear","Normal","Normal","Normal","Gear","Gear","Normal","Normal","Other","Normal","Gear","Gear","Normal","Normal","Normal","Gear","Normal","Other","Normal","Gear","Gear","Other","Collection","Gear","Normal","Gear","Normal","Normal","Normal","Other","Normal","Gear","Gear","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Gear","Normal","Collection","Normal","Gear","Gear","Normal","Normal","Gear","Collection","Normal","Normal","Other","Gear","Normal","Normal","Random","Normal","Normal","Book","Other","Book","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Normal","Extended","Book","Normal","Normal","Normal","Normal","Normal","Normal","Extended","Normal","Normal","Gear","Normal","Book"],[null,1.99,null,9.99,null,null,59.99,9.99,29.99,null,null,null,39.99,34.99,null,null,null,9.99,null,null,null,null,null,null,null,7.99,9.99,null,4.99,null,null,169.99,null,null,null,14.99,null,null,4.99,19.99,29.99,3.49,249.99,4.99,null,null,6.99,null,49.99,9.99,29.99,3.99,null,19.99,29.99,129.99,19.99,19.99,null,99.98999999999999,9.99,null,null,19.99,7.99,null,34.99,2.99,null,null,null,12.99,null,219.99,null,null,null,24.99,null,null,14.99,null,49.99,null,12.99,null,null,null,44.99,null,null,null,null,29.99,null,null,null,24.99,null,null],[46,null,189,1,6,17,null,95,null,345,22,null,467,157,412,null,16,122,194,null,null,30,317,10,12,null,null,156,52,412,null,1022,null,23,null,null,196,264,null,164,null,14,11695,79,null,109,null,null,549,67,445,14,40,148,213,1767,null,180,142,1308,null,null,782,312,null,125,215,7,27,null,98,101,4,1642,7,null,10,30,31,59,206,152,540,54,68,47,12,null,382,20,7,163,83,313,154,null,813,null,175,null],[1,null,4,null,1,2,null,2,null,null,null,null,null,3,3,null,null,2,3,1,null,1,5,1,null,null,null,null,null,null,null,5,null,1,null,null,null,null,null,3,null,1,null,null,null,1,null,null,3,2,2,1,null,2,3,null,null,2,null,4,null,null,null,null,null,null,3,1,null,null,1,4,null,null,null,null,1,null,1,null,null,4,4,null,4,null,1,null,4,null,null,2,null,2,null,null,8,null,4,null],[3.1,0,4.1,3.9,3.8,0,0,3.7,0,4.1,0,0,4.1,0,3.7,0,0,3.6,4,0,0,3.5,4.3,0,3.8,0,0,0,3.7,0,0,3.7,0,0,0,0,0,0,0,3.6,0,3.2,4.1,3.6,0,0,0,0,4.2,3.7,0,3.5,0,3.9,4,4.3,0,3.9,0,0,0,0,4.5,4,0,0,0,3.9,0,0,4,3.9,0,4.5,0,0,4,0,0,0,0,3.9,4,4.2,3.9,3.4,0,0,4,0,0,4.2,3.8,4.1,0,0,4.2,0,4.3,0]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>setID<\/th>\n      <th>name<\/th>\n      <th>year<\/th>\n      <th>theme<\/th>\n      <th>themeGroup<\/th>\n      <th>category<\/th>\n      <th>US_retailPrice<\/th>\n      <th>pieces<\/th>\n      <th>minifigs<\/th>\n      <th>rating<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"pageLength":10,"columnDefs":[{"className":"dt-right","targets":[1,3,7,8,9,10]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"setID","targets":1},{"name":"name","targets":2},{"name":"year","targets":3},{"name":"theme","targets":4},{"name":"themeGroup","targets":5},{"name":"category","targets":6},{"name":"US_retailPrice","targets":7},{"name":"pieces","targets":8},{"name":"minifigs","targets":9},{"name":"rating","targets":10}],"order":[],"autoWidth":false,"orderClasses":false},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 
 ]
 
@@ -560,9 +587,9 @@ table(legosets$category) |&gt; prop.table()
 ```
 ## 
 ##        Book  Collection    Extended        Gear      Normal       Other 
-## 0.034468546 0.031377196 0.028749549 0.154515946 0.684682364 0.062599825 
+## 0.034818805 0.030509305 0.031586680 0.156513222 0.677864838 0.064985309 
 ##      Random 
-## 0.003606574
+## 0.003721841
 ```
 
 ---
@@ -620,7 +647,7 @@ nrow(mylego)
 ```
 
 ```
-## [1] 99
+## [1] 103
 ```
 
 ---
@@ -649,10 +676,10 @@ head(mylego, n = 4)
 
 ```
 ##   setID pieces     theme    availability US_retailPrice minifigs
-## 1 26803    103 Education {Not specified}             NA        6
-## 2 26689    142 Education {Not specified}             NA        4
-## 3 26804     98 Education {Not specified}             NA        6
-## 4 26277    188 Education     Educational          94.95       NA
+## 1 26803    109 Education {Not specified}             NA        6
+## 2 26277    188 Education     Educational          94.95       NA
+## 3 27742    160 Education {Not specified}             NA       NA
+## 4 26805   1000 Education {Not specified}             NA       NA
 ```
 
 ---
@@ -674,9 +701,9 @@ mylego %&gt;% relocate(where(is.numeric), .after = where(is.character)) %&gt;% h
 
 ```
 ##       theme    availability setID pieces US_retailPrice minifigs
-## 1 Education {Not specified} 26803    103             NA        6
-## 2 Education {Not specified} 26689    142             NA        4
-## 3 Education {Not specified} 26804     98             NA        6
+## 1 Education {Not specified} 26803    109             NA        6
+## 2 Education     Educational 26277    188          94.95       NA
+## 3 Education {Not specified} 27742    160             NA       NA
 ```
 
 ### Base R
@@ -689,9 +716,9 @@ head(mylego2, n = 3)
 
 ```
 ##       theme    availability setID pieces US_retailPrice minifigs
-## 1 Education {Not specified} 26803    103             NA        6
-## 2 Education {Not specified} 26689    142             NA        4
-## 3 Education {Not specified} 26804     98             NA        6
+## 1 Education {Not specified} 26803    109             NA        6
+## 2 Education     Educational 26277    188          94.95       NA
+## 3 Education {Not specified} 27742    160             NA       NA
 ```
 
 
@@ -713,10 +740,10 @@ mylego %&gt;% dplyr::rename(USD = US_retailPrice) %&gt;% head(n = 3)
 ```
 
 ```
-##   setID pieces     theme    availability USD minifigs
-## 1 26803    103 Education {Not specified}  NA        6
-## 2 26689    142 Education {Not specified}  NA        4
-## 3 26804     98 Education {Not specified}  NA        6
+##   setID pieces     theme    availability   USD minifigs
+## 1 26803    109 Education {Not specified}    NA        6
+## 2 26277    188 Education     Educational 94.95       NA
+## 3 27742    160 Education {Not specified}    NA       NA
 ```
 
 ### Base R
@@ -728,10 +755,10 @@ head(mylego2, n = 3)
 ```
 
 ```
-##       theme    availability setID pieces USD minifigs
-## 1 Education {Not specified} 26803    103  NA        6
-## 2 Education {Not specified} 26689    142  NA        4
-## 3 Education {Not specified} 26804     98  NA        6
+##       theme    availability setID pieces   USD minifigs
+## 1 Education {Not specified} 26803    109    NA        6
+## 2 Education     Educational 26277    188 94.95       NA
+## 3 Education {Not specified} 27742    160    NA       NA
 ```
 
 ---
@@ -792,23 +819,23 @@ legosets %&gt;% group_by(themeGroup) %&gt;% summarize(mean_price = mean(US_retai
 ## # A tibble: 17 × 6
 ##    themeGroup       mean_price sd_price median_price     n missing
 ##    &lt;chr&gt;                 &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;int&gt;   &lt;int&gt;
-##  1 Action/Adventure       40.2     38.9         30.0  1474     779
-##  2 Art and crafts         34.9     47.7         17.5    97       9
-##  3 Basic                  21.6     19.2         15.0   873     733
+##  1 Action/Adventure       41.9     40.8         30.0  1551     813
+##  2 Art and crafts         37.7     50.5         20.0   100       9
+##  3 Basic                  22.5     19.6         15.0   879     734
 ##  4 Constraction           16.4     12.4         13.0   502     284
-##  5 Educational           182.     188.         130.    503     465
+##  5 Educational           184.     188.         138.    520     482
 ##  6 Girls                  35.8     24.0         23.0   240     227
 ##  7 Historical             34.2     32.4         20.0   473     400
 ##  8 Junior                 22.0     10.1         20.0   228     165
-##  9 Licensed               53.3     71.7         30.0  2775    1066
-## 10 Miscellaneous          20.7     29.2         13.0  6253    3961
-## 11 Model making           74.3     92.1         40.0   771     384
-## 12 Modern day             38.2     35.6         30.0  2469    1535
-## 13 Pre-school             30.8     22.7         25.0  1562    1103
+##  9 Licensed               54.0     70.9         30.0  3054    1160
+## 10 Miscellaneous          21.6     30.4         13.0  6657    4221
+## 11 Model making           78.2     94.1         40.0   832     401
+## 12 Modern day             39.0     36.1         30.0  2577    1567
+## 13 Pre-school             31.0     22.6         25.0  1587    1108
 ## 14 Racing                 26.8     26.5         15.0   270     176
-## 15 Technical              82.8     95.3         50.0   607     327
-## 16 Vintage               NaN       NA           NA     306     306
-## 17 &lt;NA&gt;                  NaN       NA           NA       6       6
+## 15 Technical              84.9     96.2         50.0   637     335
+## 16 Vintage               NaN       NA           NA     307     307
+## 17 &lt;NA&gt;                   70.0     28.3         70.0     6       4
 ```
 ]
 
@@ -822,10 +849,10 @@ describe(legosets$US_retailPrice)
 ```
 
 ```
-##    vars    n  mean   sd median trimmed   mad  min    max range skew kurtosis
-## X1    1 7483 38.96 56.5  19.99    27.7 17.79 1.49 849.99 848.5 5.32    44.74
+##    vars    n  mean    sd median trimmed   mad  min    max range skew kurtosis
+## X1    1 8027 40.33 57.36  19.99   28.86 17.79 1.49 849.99 848.5 5.05    40.51
 ##      se
-## X1 0.65
+## X1 0.64
 ```
 
 
@@ -836,17 +863,18 @@ describeBy(legosets$US_retailPrice, group = legosets$availability, mat = TRUE, s
 ```
 
 ```
-##      item                group1 vars    n      mean        sd median   min    max range         se
-## X11     1       {Not specified}    1 1831  26.84733  39.96747  19.99  1.49 789.99 788.5  0.9340335
-## X12     2           Educational    1   12 212.86667 105.88283 222.45 14.95 399.95 385.0 30.5657410
-## X13     3        LEGO exclusive    1 1039  57.21203 106.63125  12.99  1.99 849.99 848.0  3.3080857
-## X14     4    LEGOLAND exclusive    1    2   4.99000   0.00000   4.99  4.99   4.99   0.0  0.0000000
-## X15     5              Not sold    1    1  12.99000        NA  12.99 12.99  12.99   0.0         NA
-## X16     6           Promotional    1    5   4.79000   0.83666   4.99  3.99   5.99   2.0  0.3741657
-## X17     7 Promotional (Airline)    1    0       NaN        NA     NA   Inf   -Inf  -Inf         NA
-## X18     8                Retail    1 4290  37.55889  38.44918  24.99  1.99 699.99 698.0  0.5870275
-## X19     9      Retail - limited    1  302  63.54381  70.91908  39.99  2.49 449.99 447.5  4.0809343
-## X110   10               Unknown    1    1   3.99000        NA   3.99  3.99   3.99   0.0         NA
+##      item                         group1 vars    n      mean        sd median   min    max range         se
+## X11     1                {Not specified}    1 1904  27.15558  39.42703  19.99  1.49 789.99 788.5  0.9035676
+## X12     2                    Educational    1   12 217.03333 108.17617 232.45 14.95 399.95 385.0 31.2277699
+## X13     3 Gift with Purchase at LEGO.com    1    0       NaN        NA     NA   Inf   -Inf  -Inf         NA
+## X14     4                 LEGO exclusive    1 1129  60.45079 108.56718  14.99  1.99 849.99 848.0  3.2311088
+## X15     5             LEGOLAND exclusive    1    2   4.99000   0.00000   4.99  4.99   4.99   0.0  0.0000000
+## X16     6                       Not sold    1    1  12.99000        NA  12.99 12.99  12.99   0.0         NA
+## X17     7                    Promotional    1    5   4.79000   0.83666   4.99  3.99   5.99   2.0  0.3741657
+## X18     8          Promotional (Airline)    1    0       NaN        NA     NA   Inf   -Inf  -Inf         NA
+## X19     9                         Retail    1 4658  38.88535  39.14642  26.99  1.99 699.99 698.0  0.5735778
+## X110   10               Retail - limited    1  315  63.48270  69.97310  39.99  2.49 449.99 447.5  3.9425374
+## X111   11                        Unknown    1    1   3.99000        NA   3.99  3.99   3.99   0.0         NA
 ```
 
 

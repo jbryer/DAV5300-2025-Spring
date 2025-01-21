@@ -111,14 +111,23 @@ knitr::include_graphics('images/BoysFall2019.jpg')
 ---
 
 # And photographer.
-
 ```{r, out.width='80%', fig.align='center', echo=FALSE}
 knitr::include_graphics('images/Sleeping_Empire.jpg')
 ```
 
+---
+# Your turn...
+
+What is your name?
+
+What program are you in?
+
+What are your career goals?
+
+Something unique about you (e.g. hobby, interest, favorite movie)?
+
 
 ---
-
 # Syllabus `r hexes(c('blogdown', 'rmarkdown'))`
 
 .pull-left[
@@ -384,6 +393,24 @@ You will also need to have [LaTeX](https://www.latex-project.org) installed as w
 install.packages('tinytex')
 tinytex::install_tinytex()
 ```
+
+---
+class: font80
+# Clean Environment Between Sessions
+
+.pull-left[
+By default RStudio will ask you to save your session when closing the application. Additionally, if the `.RData` file exists in the project directory, data saved in that file will be loaded into your session. *I highly recommend turning this off.* Doing so will ensure you have a clean environment everytime you start RStudio.
+
+* In RStudio, click the `Tools` menu then `Global Options`
+* Uncheck *"Restore .RData into workspace at startup"*
+* For *"Save worksopace to .RData on exit"* select "Never"
+
+**Why do this?** Whenever you knit a document (e.g. Rmarkdow, Quarto) R will create a new, blank, session to knit the document. When working interactively it is easy to run commands out of order. It is alwasy good to check your work by resetting your environment (click `Session` --> `Restart R`) and running your commands in order to ensure everyting will work as intended.
+]
+.pull-right[
+![RStudio Options](images/RStudio_Options.png)
+]
+
 
 ---
 class: inverse, middle, center
