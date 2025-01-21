@@ -748,7 +748,7 @@ qrcode::qr_code(one_minute_paper) |> plot(col = c('#FAFAFA', 'black'))
 [`r icons::fontawesome("paper-plane")` jason.bryer@yu.edu](mailto:jason.bryer@yu.edu)  
 [`r icons::fontawesome("github")` @jbryer](https://github.com/jbryer/`r github_link`)  
 [`r icons::fontawesome('mastodon')` @jbryer@vis.social](https://vis.social/@jbryer)  
-[`r icons::fontawesome('slack')` `r `slack_link`](`r slack_link`)  
+[`r icons::fontawesome('slack')` `r gsub('https://', '', slack_link)`](`r slack_link`)  
 [`r icons::fontawesome("link")` `r paste0(tolower(semester), year, '.dav5300.net')`](`r paste0('https://', tolower(semester), year, '.dav5300.net')`)   
 
 ]
