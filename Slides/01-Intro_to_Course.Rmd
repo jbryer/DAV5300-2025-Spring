@@ -594,7 +594,7 @@ table(legosets$category) |> prop.table()
 * `a <= b` - TRUE if a is smaller or equal to b
 * `a %in% b` - TRUE if a is in b where b is a vector  
 ```{r}
-which( letters %in% c('a','e','i','o','u') )
+letters %in% c('a','e','i','o','u') |> which()
 ```
 * `a | b` - TRUE if a *or* b are TRUE
 * `a & b` - TRUE if a *and* b are TRUE
