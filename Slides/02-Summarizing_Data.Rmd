@@ -8,6 +8,7 @@ output:
     css: ["assets/mtheme_max.css", "assets/fonts_mtheme_max.css"]
     lib_dir: libs
     seal: false
+    # mathjax: null
     nature:
       highlightStyle: solarized-light
       highlightLanguage: R
@@ -28,6 +29,9 @@ editor_options:
 # dplyr based upon https://allisonhorst.shinyapps.io/dplyr-learnr/#section-welcome
 
 source('../config.R', local = TRUE)
+
+library(brickset)
+data(legosets, package = 'brickset')
 ```
 
 class: center, middle, inverse, title-slide

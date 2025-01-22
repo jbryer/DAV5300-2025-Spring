@@ -83,9 +83,13 @@ for(i in tocopy) {
 		if(build_pdf) {
 			wd <- setwd('Slides/')
 			tryCatch({
-				renderthis::to_pdf(i,
-								   complex_slides = TRUE,
-								   partial_slides = FALSE)
+				cat(paste0('Generating ', pdf, '...'))
+				# renderthis::to_pdf(i,
+				# 				   complex_slides = TRUE,
+				# 				   partial_slides = FALSE)
+				pagedown::chrome_print(i,
+									   pdf,
+									   timeout = 120)
 			}, error = function(e) {
 				cat(paste0('Error generating PDF from ', from))
 				print(e)
