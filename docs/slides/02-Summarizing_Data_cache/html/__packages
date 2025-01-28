@@ -30,3 +30,5 @@ psych
 cowplot
 rmarkdown
 qrcode
+brickset
+googlesheets4

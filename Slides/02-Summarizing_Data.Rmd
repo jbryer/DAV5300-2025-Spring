@@ -2,7 +2,7 @@
 title: "Summarizing Data"
 subtitle: "Computational Mathematics and Statistics"
 author: Jason Bryer, Ph.D.
-date: "September 3, 2024"
+date: "January 28, 2025"
 output:
   xaringan::moon_reader:
     css: ["assets/mtheme_max.css", "assets/fonts_mtheme_max.css"]
@@ -45,26 +45,31 @@ class: center, middle, inverse, title-slide
 ---
 # One Minute Paper Results
 
-```{r, echo=FALSE, eval = FALSE}
+```{r, echo=FALSE, eval = TRUE}
 library(googlesheets4)
 library(tidyverse)
- omp <- read_sheet(one_minute_paper_results)
+omp <- read_sheet(one_minute_paper_results)
 # names(omp)[8] <- 'Time_Spent'
 # omp$Time_Spent <- NULL
 # omp$Time_Spent <- sapply(omp$Time_Spent, FUN = function(x) { x[[1]] })
- omp <- omp %>% dplyr::filter(`Class Date` == 'August 27')
+omp_date <- format(as.Date(rmarkdown::metadata$date, format = '%B %d, %Y') - 7, format = '%B %d')
+omp <- omp %>% dplyr::filter(`Class Date` == omp_date)
 ```
 
 .pull-left[
 **What was the most important thing you learned during this class?**
-```{r, echo=FALSE, cache = TRUE, fig.height=9, eval = FALSE}
- ompWordCloud(omp$`What was the most important thing you learned during this class?`)
+```{r, echo=FALSE, cache = TRUE, fig.height=9, eval = TRUE}
+if(nrow(omp) > 5) {
+	ompWordCloud(omp$`What was the most important thing you learned during this class?`)
+}
 ```
 ]
 .pull-right[
 **What important question remains unanswered for you?**
-```{r, echo=FALSE, cache = TRUE, fig.height=9, eval = FALSE}
- ompWordCloud(omp$`What important question remains unanswered for you?`)
+```{r, echo=FALSE, cache = TRUE, fig.height=9, eval = TRUE}
+if(nrow(omp) > 5) {
+	ompWordCloud(omp$`What important question remains unanswered for you?`)
+}
 ```
 ]
 
@@ -548,13 +553,6 @@ class: middle
 
 ---
 # Additional Resources
-
-For data wrangling:
-
-* `dplyr` website: https://dplyr.tidyverse.org
-* R for Data Science book: https://r4ds.had.co.nz/wrangle-intro.html
-* Wrangling penguins tutorial: https://allisonhorst.shinyapps.io/dplyr-learnr/#section-welcome
-* Data transformation cheat sheet: https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf
 
 For data visualization:
 
