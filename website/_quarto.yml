@@ -20,7 +20,7 @@ website:
   description: "DAV5300 - Computational Math and Statistics - Yeshiva University"
   site-url: "https://spring2025.dav5300.net/"
 
-  repo-url: https://github.com/jbryer/DAV5300-2025-Spring
+  repo-url: https://github.com/jbryer/DAV5300-2025-Spring/website/
   repo-actions: [edit, issue]
 
   open-graph: true
