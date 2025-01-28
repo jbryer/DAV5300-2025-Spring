@@ -22,6 +22,7 @@ website:
 
   repo-url: https://github.com/jbryer/DAV5300-2025-Spring/
   repo-subdir: website
+  repo-branch: master
   repo-actions: [edit, issue]
 
   open-graph: true
