@@ -44,7 +44,7 @@ website:
         href: course/schedule.qmd
         text: "Schedule"
       - icon: github
-        href: https://github.com/jbryer/DAV5300-2024--Fall
+        href: https://github.com/jbryer/DAV5300-2025-Spring
         text: "Github"
         target: _blank
       - icon: slack
