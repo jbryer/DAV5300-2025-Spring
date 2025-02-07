@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Probability &amp; Distributions</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jason Bryer, Ph.D." />
+    <meta name="date" content="2025-02-04" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/mtheme_max.css" type="text/css" />
+    <link rel="stylesheet" href="assets/fonts_mtheme_max.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+class: center, middle, inverse, title-slide
+
+# Probability &amp; Distributions
+## Computational Mathematics and Statistics
+### Jason Bryer, Ph.D.
+### February 4, 2025
+
+---
+# One Minute Paper Results
+
+
+
+.pull-left[
+**What was the most important thing you learned during this class?**
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-2-1.png" style="display: block; margin: auto;" /&gt;
+]
+.pull-right[
+**What important question remains unanswered for you?**
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Probability
+
+There are two key properties of probability models:
+
+1. P(A) = The probability of event A
+2. `\(0 \le P(A) \le 1\)`
+
+This semester we will examine two interpretations of probabilty:
+
+* **Frequentist interpretation**: The probability of an outcome is the proportion of times the outcome would occur if we observed the random process an infinite number of times.
+
+* **Bayesian interpretation**: A Bayesian interprets probability as a subjective degree of belief: For the same event, two separate people could have different viewpoints and so assign different probabilities. Largely popularized by revolutionary advance in computational technology and methods during the last twenty years.
+
+---
+# Law of Large Numbers
+
+Law of large numbers states that as more observations are collected, the proportion of occurrences with a particular outcome, `\({\hat{p}}_n\)`, converges to the probability of that outcome, `\(p\)`.
+
+--
+
+When tossing a fair coin, if heads comes up on each of the first 10 tosses, what do you think the chance is that another head will come up on the next coin toss? 0.5, less 0.5, or greater 0.5?
+
+--
+
+When tossing a fair coin, if heads comes up on each of the first 10 tosses, what do you think the chance is that another head will come up on the next coin toss? 0.5, less 0.5, or greater 0.5?
+
+* The probability is still 0.5, or there is still a 50% chance that another head will come up on the next toss.
+* The coin is not "due"" for a tail.
+* The common misunderstanding of the LLN is that random processes are supposed to compensate for whatever happened in the past; this is just not true and is also called **gambler’s fallacy** (or **law of averages**).
+
+---
+# Coin Toss Demo
+
+
+``` r
+library(DATA606)
+shiny_demo('gambler')
+```
+
+.center[
+
+&lt;a href='https://r.bryer.org/shiny/gambler/' target='_new'&gt;&lt;img src='images/Shiny_gamblers_run.png' width=800 /&gt;&lt;/a&gt;
+
+]
+
+---
+# Coin Tosses
+
+
+``` r
+coins &lt;- sample(c(-1,1), 1000, replace=TRUE)
+plot(1:length(coins), cumsum(coins), type='l')
+abline(h=0)
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Coin Tosses (Full Range) 
+
+
+``` r
+plot(1:length(coins), cumsum(coins), type='l', ylim=c(-1000, 1000))
+abline(h=0)
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Disjoint and non-disjoint outcomes
+
+**Disjoint** (mutually exclusive) outcomes: Cannot happen at the same time.
+
+* The outcome of a single coin toss cannot be a head and a tail. A student both cannot fail and pass a class.
+* A single card drawn from a deck cannot be an ace and a queen.
+
+**Non-disjoint** outcomes: Can happen at the same time.
+
+* A student can get an A in Stats and A in Econ in the same semester.
+
+---
+# Probability Distributions
+
+A probability distribution lists all possible events and the probabilities with which they occur.
+
+* The probability distribution for the a coin toss:
+
+Event      | Heads | Tails
+-----------|-------|---------
+Probability | 0.5   | 0.5
+
+Rules for probability distributions: 
+
+1. The events listed must be disjoint
+2. Each probability must be between 0 and 1 
+3. The probabilities must total 1
+
+---
+# Probabilty Distrubtions (cont.)
+
+The probability distribution for two coin tosses:
+
+Event       | HH   | TT   | HT   | TH
+------------|------|------|------|------
+Probability | 0.25 | 0.25 | 0.25 | 0.25
+
+---
+# Independence
+
+Two processes are independent if knowing the outcome of one provides no useful information about the outcome of the other.
+
+* Knowing that the coin landed on a head on the first toss does not provide any useful information for determining what the coin will land on in the second toss. → Outcomes of two tosses of a coin are independent.
+
+* Knowing that the first card drawn from a deck is an ace does provide useful information for determining the probability of drawing an ace in the second draw. → Outcomes of two draws from a deck of cards (without replacement) are dependent.
+
+
+---
+# Checking for Independence
+
+If P(A occurs, given that B is true) = P(A | B) = P(A), then A and B are independent.
+
+* P(protects citizens) = 0.58
+* P(randomly selected NC resident says gun ownership protects citizens, given that the resident is white) = P(protects citizens | White) = 0.67
+* P(protects citizens | Black) = 0.28
+* P(protects citizens | Hispanic) = 0.64
+
+P(protects citizens) varies by race/ethnicity, therefore opinion on gun ownership and race ethnicity are most likely dependent.
+
+---
+# Random Variables
+
+A random variable is a numeric quantity whose value depends on the outcome of a random event
+
+* We use a capital letter, like X, to denote a random variable
+* The values of a random variable are denoted with a lowercase letter, in this case x
+* For example, P(X = x)
+
+There are two types of random variables:
+
+* **Discrete random variables** often take only integer values  
+Example: Number of credit hours, Difference in number of credit hours this term vs last
+
+* **Continuous random variables** take real (decimal) values  
+Example: Cost of books this term, Difference in cost of books this term vs last
+
+---
+# Lottery
+
+
+``` r
+library(DATA606)
+shiny_demo('lottery')
+```
+
+.center[
+
+&lt;a href='https://r.bryer.org/shiny/lottery/' target='_new'&gt;&lt;img src='images/Shiny_lottery.png' width=800 /&gt;&lt;/a&gt;
+
+]
+
+
+---
+# Expectation
+
+* We are often interested in the average outcome of a random variable.
+* We call this the expected value (mean), and it is a weighted average of the possible outcomes
+
+`$$\mu =E(X)=\sum^{k}_{i=1} x_{i}P(X=x_{i})$$`
+
+---
+# Expected value of a discrete random variable
+
+In a game of cards you win $1 if you draw a heart, $5 if you draw an ace (including the ace of hearts), $10 if you draw the king of spades and nothing for any other card you draw. Write the probability model for your winnings, and calculate your expected winning.
+
+Event           | X  | P(X)  | X P(X)
+----------------|----|-------|--------
+Heart (not Ace) | 1  | 12/52 | 12/52
+Ace             | 5  |  4/52 | 20/52
+King of Spades  | 10 |  1/52 | 10/52
+All else        | 0  | 35/52 | 0
+Total           |    |       | `\(E(X) = \frac{42}{52} \approx 0.81\)`
+
+---
+# Expected value of a discrete random variable
+
+
+``` r
+cards &lt;- data.frame(Event = c('Heart (not ace)','Ace','King of Spades','All else'),
+	X = c(1, 5, 10, 0),	pX = c(12/52, 5/52, 1/52, 32/52) )
+cards$XpX &lt;- cards$X * cards$pX
+cards2 &lt;- rep(0, 11)
+cards2[cards$X + 1] &lt;- cards$pX
+names(cards2) &lt;- 0:10
+barplot(cards2, main='Probability of Winning Game')
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Estimating Expected Values with Simulations
+
+
+``` r
+tickets &lt;- as.data.frame(rbind(
+	c(    '$1',    1,     15),
+	c(    '$2',    2,     11),
+	c(    '$4',    4,     62),
+	c(    '$5',    5,    100),
+	c(   '$10',   10,    143),
+	c(   '$20',   20,    250),
+	c(   '$30',   30,    562),
+	c(   '$50',   50,   3482),
+	c(  '$100',  100,   6681),
+	c(  '$500',  500,  49440),
+	c('$1500',  1500, 375214),
+	c('$2500',  2500, 618000)
+), stringsAsFactors=FALSE)
+names(tickets) &lt;- c('Winnings', 'Value', 'Odds')
+tickets$Value &lt;- as.integer(tickets$Value)
+tickets$Odds &lt;- as.integer(tickets$Odds)
+```
+
+---
+# Estimating Expected Values with Simulations
+
+.pull-left[
+
+
+``` r
+m &lt;- 618000 * 375214 # A multiple of all odds
+odds &lt;- sample(m, 1000, replace=TRUE)
+vals &lt;- rep(-1, length(odds))
+for(i in 1:nrow(tickets)) {
+	vals[odds %% tickets[i,'Odds'] == 0] &lt;- 
+		tickets[i,'Value'] - 1 
+}
+head(vals, n=10)
+```
+
+```
+##  [1] -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+```
+
+``` r
+mean(vals)
+```
+
+```
+## [1] -0.529
+```
+]
+.pull-right[
+
+``` r
+ggplot(data.frame(Winnings=vals), aes(x=Winnings)) + 
+	geom_bar(binwidth=1)
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+
+---
+# Expected Value of Lottery Example
+
+`$$\mu =E(X)=\sum^{k}_{i=1} x_{i}P(X=x_{i})$$`
+
+
+
+.pull-left[
+
+``` r
+tickets
+```
+
+```
+##    Winnings Value   Odds         xPx
+## 1        $1     1     15 0.066666667
+## 2        $2     2     11 0.181818182
+## 3        $4     4     62 0.064516129
+## 4        $5     5    100 0.050000000
+## 5       $10    10    143 0.069930070
+## 6       $20    20    250 0.080000000
+## 7       $30    30    562 0.053380783
+## 8       $50    50   3482 0.014359563
+## 9      $100   100   6681 0.014967819
+## 10     $500   500  49440 0.010113269
+## 11    $1500  1500 375214 0.003997719
+## 12    $2500  2500 618000 0.004045307
+```
+]
+.pull-right[
+Expected value for one ticket
+
+``` r
+sum(tickets$xPx) - 1 
+```
+
+```
+## [1] -0.3862045
+```
+]
+
+---
+# Expected Value of Lottery Example (cont)
+
+
+``` r
+sum(tickets$xPx) - 1 # Expected value for one ticket
+```
+
+```
+## [1] -0.3862045
+```
+
+Simulated
+
+
+``` r
+nGames &lt;- 1
+runs &lt;- numeric(10000)
+for(j in seq_along(runs)) {
+	odds &lt;- sample(max(tickets$Odds), nGames, replace = TRUE)
+	vals &lt;- rep(-1, length(odds))
+	for(i in 1:nrow(tickets)) {
+		vals[odds %% tickets[i,'Odds'] == 0] &lt;- tickets[i,'Value'] - 1
+	}
+	runs[j] &lt;- cumsum(vals)[nGames]
+}
+mean(runs)
+```
+
+```
+## [1] -0.4432
+```
+
+---
+# Note on Randomization in R
+
+We will use many different functions throughout the course to randomly generate data. The first is the `sample` function. This function simply randomly samples from the first parameter. Consider the `letters` vector containing the 26 letters of the alphabet. Calling `sample` with just that vector will shuffle the vector.
+
+
+``` r
+letters
+```
+
+```
+##  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
+## [20] "t" "u" "v" "w" "x" "y" "z"
+```
+
+``` r
+sample(letters)
+```
+
+```
+##  [1] "k" "w" "u" "r" "x" "z" "h" "v" "i" "m" "p" "c" "t" "l" "g" "s" "b" "d" "f"
+## [20] "e" "o" "y" "a" "j" "q" "n"
+```
+
+---
+#  Note on Randomization in R  (cont.)
+
+You can specify how many you want to return with the `size` parameter.
+
+
+``` r
+sample(letters, size = 1)
+```
+
+```
+## [1] "x"
+```
+
+The `replace` will ensure that each randomly selected value is independent of the others.
+
+
+``` r
+sample(letters, size = 30, replace = TRUE)
+```
+
+```
+##  [1] "o" "i" "x" "a" "v" "m" "l" "q" "s" "x" "f" "u" "y" "p" "m" "j" "x" "u" "u"
+## [20] "b" "c" "y" "k" "j" "u" "t" "e" "y" "i" "c"
+```
+
+---
+# Coins Example
+
+
+``` r
+coin &lt;- c('H', 'T')
+sample(coin)
+```
+
+```
+## [1] "H" "T"
+```
+
+``` r
+sample(coin, 1)
+```
+
+```
+## [1] "H"
+```
+
+``` r
+sample(coin, 100, replace = TRUE)
+```
+
+```
+##   [1] "T" "T" "T" "H" "T" "T" "T" "T" "T" "H" "T" "H" "H" "T" "T" "H" "T" "T"
+##  [19] "T" "T" "H" "H" "T" "H" "T" "H" "H" "H" "T" "H" "T" "T" "H" "H" "H" "H"
+##  [37] "T" "T" "T" "H" "H" "T" "T" "T" "H" "H" "T" "H" "H" "T" "T" "H" "T" "H"
+##  [55] "H" "T" "T" "H" "T" "H" "H" "T" "T" "H" "T" "H" "T" "H" "H" "H" "H" "H"
+##  [73] "T" "H" "H" "T" "H" "H" "H" "T" "T" "T" "T" "H" "H" "T" "T" "T" "T" "T"
+##  [91] "T" "T" "H" "H" "H" "T" "T" "T" "T" "H"
+```
+
+---
+# Seeds
+
+Computers are generally not good at randomizaiton. Instead, R (and really all programs) uses a [pseudo random algorithm](https://en.wikipedia.org/wiki/Pseudorandomness). These algorithms rely on a seed, or starting point for the algorithm. You can set the seed to ensure that your analysis is reproducible. For example, setting the seed below before calling `sample` will ensure we get the same answer.
+
+
+``` r
+set.seed(2112); sample(100, 1)
+```
+
+```
+## [1] 6
+```
+
+``` r
+set.seed(2112); sample(100, 1)
+```
+
+```
+## [1] 6
+```
+
+---
+# Is it really random?
+
+
+``` r
+df &lt;- data.frame(x = 1:1000, y = NA_integer_)
+for(i in 1:nrow(df)) {
+	set.seed(i)
+	df[i,]$y &lt;- sample(100, 1)
+}
+```
+
+.pull-left[
+
+``` r
+ggplot(df, aes(x = x, y = y)) + geom_point()
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-23-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+
+``` r
+cor.test(df$x, df$y)
+```
+
+```
+## 
+## 	Pearson's product-moment correlation
+## 
+## data:  df$x and df$y
+## t = -0.11161, df = 998, p-value = 0.9112
+## alternative hypothesis: true correlation is not equal to 0
+## 95 percent confidence interval:
+##  -0.06551171  0.05847292
+## sample estimates:
+##          cor 
+## -0.003532972
+```
+]
+
+
+---
+class: middle, inverse, center
+# Distributions
+
+---
+# Coin Tosses Revisited 
+
+
+``` r
+coins &lt;- sample(c(-1,1), 100, replace=TRUE)
+plot(1:length(coins), cumsum(coins), type='l')
+abline(h=0)
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-25-1.png" style="display: block; margin: auto;" /&gt;
+
+``` r
+cumsum(coins)[length(coins)]
+```
+
+```
+## [1] 2
+```
+
+---
+class: font120
+# Many Random Samples
+
+
+``` r
+samples &lt;- rep(NA, 1000)
+for(i in seq_along(samples)) {
+	coins &lt;- sample(c(-1,1), 100, replace=TRUE)
+	samples[i] &lt;- cumsum(coins)[length(coins)]
+}
+head(samples, n = 15)
+```
+
+```
+##  [1] -18  -6  -8 -14  -4   0   8   2  -8   6   8   0  -4   0  -6
+```
+
+---
+# Histogram of Many Random Samples 
+
+
+``` r
+hist(samples)
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Properties of Distribution 
+
+
+``` r
+(m.sam &lt;- mean(samples))
+```
+
+```
+## [1] 0.148
+```
+
+``` r
+(s.sam &lt;- sd(samples))
+```
+
+```
+## [1] 10.10942
+```
+
+---
+# Properties of Distribution (cont.)
+
+
+``` r
+within1sd &lt;- samples[samples &gt;= m.sam - s.sam &amp; samples &lt;= m.sam + s.sam]
+length(within1sd) / length(samples)
+```
+
+```
+## [1] 0.691
+```
+
+``` r
+within2sd &lt;- samples[samples &gt;= m.sam - 2 * s.sam &amp; samples &lt;= m.sam + 2* s.sam]
+length(within2sd) / length(samples)
+```
+
+```
+## [1] 0.958
+```
+
+``` r
+within3sd &lt;- samples[samples &gt;= m.sam - 3 * s.sam &amp; samples &lt;= m.sam + 3 * s.sam]
+length(within3sd) / length(samples)
+```
+
+```
+## [1] 0.998
+```
+
+
+---
+# Standard Normal Distribution 
+
+`$$f\left( x|\mu ,\sigma  \right) =\frac { 1 }{ \sigma \sqrt { 2\pi  }  } { e }^{ -\frac { { \left( x-\mu  \right)  }^{ 2 } }{ { 2\sigma  }^{ 2 } }  }$$`
+
+
+``` r
+x &lt;- seq(-4,4,length=200); y &lt;- dnorm(x,mean=0, sd=1)
+plot(x, y, type = "l", lwd = 2, xlim = c(-3.5,3.5), ylab='', xlab='z-score', yaxt='n')
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Standard Normal Distribution 
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Standard Normal Distribution 
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-32-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Standard Normal Distribution 
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# What's the likelihood of ending with less than 15? 
+
+
+``` r
+pnorm(15, mean=mean(samples), sd=sd(samples))
+```
+
+```
+## [1] 0.9291006
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# What's the likelihood of ending with more than 15? 
+
+
+``` r
+1 - pnorm(15, mean=mean(samples), sd=sd(samples))
+```
+
+```
+## [1] 0.07089939
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Comparing Scores on Different Scales
+
+SAT scores are distributed nearly normally with mean 1500 and standard deviation 300. ACT scores are distributed nearly normally with mean 21 and standard deviation 5. A college admissions officer wants to determine which of the two applicants scored better on their standardized test with respect to the other test takers: Pam, who earned an 1800 on her SAT, or Jim, who scored a 24 on his ACT?
+
+--
+
+.pull-left[
+
+### Z-Scores
+
+* Z-scores are often called standard scores:
+
+$$ Z = \frac{observation - mean}{SD} $$
+
+* Z-Scores have a mean = 0 and standard deviation = 1.
+ ]
+ 
+--
+
+.pull-right[
+Converting Pam and Jim's scores to z-scores:
+
+$$ Z_{Pam} = \frac{1800 - 1500}{300} = 1 $$
+
+$$ Z_{Jim} = \frac{24-21}{5} = 0.6 $$
+]
+
+
+---
+class: font90
+# Dual Scales &lt;img src="images/hex/shiny.png" class="title-hex"&gt;
+
+Some problems&lt;sup&gt;1&lt;/sup&gt;:
+
+* The designer has to make choices about scales and this can have a big impact on the viewer
+* "Cross-over points” where one series cross another are results of the design choices, not intrinsic to the data, and viewers (particularly unsophisticated viewers)
+* They make it easier to lazily associate correlation with causation, not taking into account autocorrelation and other time-series issues
+* Because of the issues above, in malicious hands they make it possible to deliberately mislead
+
+This example looks at the relationship between NZ dollar exchange rate and trade weighted index.
+
+
+``` r
+DATA606::shiny_demo('DualScales', package='DATA606')
+```
+
+My advise:
+
+* Avoid using them. You can usually do better with other plot types.
+* When necessary (or compelled) to use them, rescale (using z-scores, we'll discuss this in a few weeks)
+
+.font50[
+&lt;sup&gt;1&lt;/sup&gt; http://blog.revolutionanalytics.com/2016/08/dual-axis-time-series.html  
+&lt;sup&gt;2&lt;/sup&gt; http://ellisp.github.io/blog/2016/08/18/dualaxes
+]
+
+
+
+---
+# Standard Normal Parameters 
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" /&gt;&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-39-2.png" style="display: block; margin: auto;" /&gt;
+
+---
+# SAT Variability
+
+SAT scores are distributed nearly normally with mean 1500 and standard deviation 300.
+
+* 68% of students score between 1200 and 1800 on the SAT. 
+
+* 95% of students score between 900 and 2100 on the SAT.
+
+* 99.7% of students score between 600 and 2400 on the SAT.
+
+---
+# Evaluating Normal Approximation 
+
+
+
+To use the 68-95-99 rule, we must verify the normality assumption. We will want to do this also later when we talk about various (parametric) modeling. Consider a sample of 100 male heights (in inches).
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-41-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Evaluating Normal Approximation 
+
+Histogram looks normal, but we can overlay a standard normal curve to help evaluation.
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-42-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Normal Q-Q Plot 
+
+.pull-left[
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-43-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+
+.pull-right[.font120[
+
+* Data are plotted on the y-axis of a normal probability plot, and theoretical quantiles (following a normal distribution) on the x-axis.
+* If there is a linear relationship in the plot, then the data follow a nearly normal distribution.
+* Constructing a normal probability plot requires calculating percentiles and corresponding z-scores for each observation, which is tedious. Therefore we generally rely on software when making these plots.
+
+]]
+
+---
+# Skewness 
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-44-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Simulated Normal Q-Q Plots 
+
+
+``` r
+DATA606::qqnormsim(heights)
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+class: font120
+# Milgram Experiment
+
+.pull-left[.font120[
+* Stanley Milgram conducted a series of experiments on obedience to authority starting in 1963.
+* Experimenter (E) orders the teacher (T), the subject of the experiment, to give severe electric shocks to a learner (L) each time the learner answers a question incorrectly.
+]]
+.pull-right[
+&lt;img src='images/milgram.png' height='500'&gt;
+]
+
+---
+class: font130
+# Milgram Experiment (cont.)
+
+* The learner is actually an actor, and the electric shocks are not real, but a prerecorded sound is played each time the teacher administers an electric shock.
+* These experiments measured the willingness of study participants to obey an authority figure who instructed them to perform acts that conflicted with their personal conscience.
+* Milgram found that about 65% of people would obey authority and give such shocks.
+* Over the years, additional research suggested this number is approximately consistent across communities and time.
+
+---
+# Bernoulli Sequences
+
+* Each person in Milgram’s experiment can be thought of as a trial.
+* A person is labeled a success if she refuses to administer a severe shock, and failure if she administers such shock.
+* Since only 35% of people refused to administer a shock, probability of success is p = 0.35.
+* When an individual trial has only two possible outcomes, it is called a **Bernoulli** random variable.
+
+A random variable X has a *Bernoulli distribution* with parameter *p* if
+
+$$ P(X=1) = p \quad and \quad P(X=0) = 1 - p $$
+for `\(0 &lt; p &lt; 1\)`
+
+
+---
+# Geometric distribution
+
+Dr. Smith wants to repeat Milgrams experiments but she only wants to sample people until she finds someone who will not inflict a severe shock. What is the probability that she stops after the first person?
+
+
+`$$P(1^{st}\quad person\quad refuses) =  0.35$$`
+
+the third person?
+
+$$ P(1^{st} and 2^{nd} shock, 3^{rd} refuses) = \frac{S}{0.65} \times \frac{S}{0.65} \times \frac{R}{0.35} = 0.65^{2} \times 0.35 \approx 0.15 $$
+
+the tenth person?
+
+---
+# Geometric distribution (cont.)
+
+Geometric distribution describes the waiting time until a success for *independent and identically distributed* (iid) Bernouilli random variables.
+
+* independence: outcomes of trials don’t affect each other 
+* identical: the probability of success is the same for each trial
+
+Geometric probabilities
+
+If `\(p\)` represents probability of success, `\((1 − p)\)` represents probability of failure, and n represents number of independent trials
+
+`$$P(success\quad on\quad the\quad { n }^{ th }\quad trial) = (1 − p)^{n−1}p$$`
+
+---
+# Expected value
+
+How many people is Dr. Smith expected to test before finding the first one that refuses to administer the shock?
+
+The expected value, or the mean, of a geometric distribution is
+defined as `\(\frac{1}{p}\)`.
+
+$$ \mu = \frac{1}{p} = \frac{1}{0.35} = 2.86 $$
+
+She is expected to test 2.86 people before finding the first one that refuses to administer the shock.
+
+But how can she test a non-whole number of people?
+
+---
+# Expected value and its variability
+
+&lt;center&gt;&lt;table width='80%'&gt;&lt;tr&gt;&lt;td align='center'&gt;
+$$ \mu = \frac{1}{p} $$
+&lt;/td&gt;&lt;td align='center'&gt;
+$$ \sigma = \sqrt{\frac{1-p}{p^2}} $$
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/center&gt;
+
+Going back to Dr. Smith’s experiment:
+
+$$ \sigma = \sqrt{\frac{1-p}{p^2}} = \sqrt{\frac{1-0.35}{0.35^2}} = 2.3 $$
+
+Dr. Smith is expected to test 2.86 people before finding the first one that refuses to administer the shock, give or take 2.3 people.
+
+These values only make sense in the context of repeating the experiment many many times.
+
+
+---
+# Milgram Part 2
+
+Suppose we randomly select four individuals to participate in this experiment. What is the probability that exactly 1 of them will refuse to administer the shock
+
+Let’s call these people Allen (A), Brittany (B), Caroline (C), and Damian (D). Each one of the four scenarios below will satisfy the condition of “exactly 1 of them refuses to administer the shock”:
+
+.center[
+![](images/milgram2.png)
+]
+
+The probability of exactly one 1 of 4 people refusing to administer the shock is the sum of all of these probabilities.
+
+0.0961 + 0.0961 + 0.0961 + 0.0961 = 4 × 0.0961 = 0.3844
+
+---
+# Binomial distribution
+
+The question from the prior slide asked for the probability of given number of successes, k, in a given number of trials, n, (k = 1 success in n = 4 trials), and we calculated this probability as
+
+`$$# of scenarios × P(single scenario)$$`
+
+Number of scenarios: there is a less tedious way to figure this out, we’ll get to that shortly...
+
+`$$P(single \quad scenario) = p^k (1 − p)^{(n−k)}$$`
+
+The *Binomial* distribution describes the probability of having exactly k successes in n independent Bernouilli trials with probability of success p.
+
+
+---
+# Choose Function
+
+The choose function is useful for calculating the number of ways to choose k successes in *n* trials.
+
+$$ \left( \begin{matrix} n \\\\ k \end{matrix} \right) =\frac { n! }{ k!(n-k)! }  $$
+
+For example, :
+
+$$ \left( \begin{matrix} 9 \\\\ 2 \end{matrix} \right) =\frac { 9! }{ 2!(9-2)! } =\frac { 9\times 8\times 7! }{ 2\times 1\times 7! } =\frac { 72 }{ 2 } =36 $$
+
+
+``` r
+choose(9,2)
+```
+
+```
+## [1] 36
+```
+
+---
+# Binomial distribution
+
+If p represents probability of success, (1 − p) represents probability of failure, n represents number of independent trials, and k represents number of successes
+
+$$ P(k\quad successes\quad in\quad n\quad trials)=\left( \begin{matrix} n \\\\ k \end{matrix} \right) { p }^{ k }{ (1-p) }^{ (n-k) } $$
+
+
+---
+# Binomial distribution 
+
+
+``` r
+n &lt;- 4
+p &lt;- 0.35
+barplot(dbinom(0:n, n, p), names.arg=0:n)
+```
+
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-47-1.png" style="display: block; margin: auto;" /&gt;
+
+``` r
+dbinom(1, 4, p)
+```
+
+```
+## [1] 0.384475
+```
+
+https://shiny.rit.albany.edu/stat/binomial/
+
+
+---
+class: left, font140
+# One Minute Paper
+
+.pull-left[
+1. What was the most important thing you learned during this class?
+2. What important question remains unanswered for you?
+]
+.pull-right[
+&lt;img src="03-Probability_and_Distributions_files/figure-html/unnamed-chunk-48-1.png" style="display: block; margin: auto;" /&gt;
+]
+
+https://forms.gle/sTwKB3HivjtbafBb7
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "solarized-light",
+"highlightLanguage": "R",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9",
+"navigation": {
+"scroll": false
+}
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
