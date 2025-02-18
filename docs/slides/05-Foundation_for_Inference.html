@@ -251,7 +251,7 @@ mean(pop)
 ```
 
 ```
-## [1] 0.4988817
+## [1] 0.5008739
 ```
 
 
@@ -267,7 +267,7 @@ mean(samp1)
 ```
 
 ```
-## [1] 0.6100694
+## [1] 0.5150982
 ```
 
 
@@ -287,7 +287,7 @@ mean(samp2)
 ```
 
 ```
-## [1] 0.4327681
+## [1] 0.4434464
 ```
 
 
@@ -312,8 +312,8 @@ head(samples, n=8)
 ```
 
 ```
-## [1] 0.5086801 0.5742830 0.6219056 0.5112632 0.5348299 0.6039446 0.3979495
-## [8] 0.4818325
+## [1] 0.4719056 0.5645699 0.5337015 0.4531534 0.4297545 0.3660932 0.4401652
+## [8] 0.5559603
 ```
 
 
@@ -370,7 +370,7 @@ mean(samp2)
 ```
 
 ```
-## [1] 0.59153
+## [1] 0.5699921
 ```
 
 ``` r
@@ -378,7 +378,7 @@ mean(samp2)
 ```
 
 ```
-## [1] 0.03883928
+## [1] 0.05472974
 ```
 
 ---
@@ -403,16 +403,16 @@ qnorm(0.025) # Remember we need to consider the two tails, 2.5% to the left, 2.5
 ```
 
 ```
-## [1] 0.515405 0.667655
+## [1] 0.4627218 0.6772624
 ```
 
 
 ---
 # Confidence Intervals (cont.)
 
-We are 95% confident that the true population mean is between 0.515405, 0.667655. 
+We are 95% confident that the true population mean is between 0.4627218, 0.6772624. 
 
-That is, if we were to take 100 random samples, we would expect at least 95% of those samples to have a mean within 0.515405, 0.667655.
+That is, if we were to take 100 random samples, we would expect at least 95% of those samples to have a mean within 0.4627218, 0.6772624.
 
 
 ``` r
@@ -473,10 +473,10 @@ Using confidence intervals, if the *null* value is within the confidence interva
 ```
 
 ```
-## [1] 0.515405 0.667655
+## [1] 0.4627218 0.6772624
 ```
 
-Since 0.5 fall within 0.515405, 0.667655, we *fail* to reject the null hypothesis.
+Since 0.5 fall within 0.4627218, 0.6772624, we *fail* to reject the null hypothesis.
 
 
 ---
@@ -682,7 +682,7 @@ mean(pop)
 ```
 
 ```
-## [1] 0.4991863
+## [1] 0.4993862
 ```
 
 &lt;img src="05-Foundation_for_Inference_files/figure-html/unnamed-chunk-45-1.png" style="display: block; margin: auto;" /&gt;
@@ -713,7 +713,7 @@ head(boot.samples)
 ```
 
 ```
-## [1] 0.5308358 0.5027805 0.4180756 0.4373837 0.4461113 0.4303801
+## [1] 0.5789921 0.5363629 0.5730431 0.5557283 0.5580490 0.4851498
 ```
 
 ---
@@ -741,7 +741,7 @@ c(mean(boot.samples) - 1.96 * sd(boot.samples),
 ```
 
 ```
-## [1] 0.4031231 0.5485346
+## [1] 0.4498577 0.5933974
 ```
 
 ---
@@ -758,7 +758,7 @@ head(boot.samples.median)
 ```
 
 ```
-## [1] 0.4364633 0.5479097 0.3338522 0.4214965 0.5390641 0.6081653
+## [1] 0.5174180 0.5570950 0.5557448 0.4946164 0.5281462 0.5942024
 ```
 
 95% confidence interval for the median
@@ -770,8 +770,10 @@ c(mean(boot.samples.median) - 1.96 * sd(boot.samples.median),
 ```
 
 ```
-## [1] 0.3211071 0.6308641
+## [1] 0.4693070 0.6036754
 ```
+
+
 
 ---
 class: inverse, middle, center

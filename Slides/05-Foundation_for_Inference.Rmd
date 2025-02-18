@@ -28,6 +28,7 @@ editor_options:
 # dplyr based upon https://allisonhorst.shinyapps.io/dplyr-learnr/#section-welcome
 
 source('../config.R')
+set.seed(2112)
 ```
 
 class: center, middle, inverse, title-slide
@@ -45,7 +46,6 @@ class: center, middle, inverse, title-slide
 library(googlesheets4)
 library(lubridate)
 omp <- read_sheet(one_minute_paper_results)
-class_date <- 'February 11, 2025'
 class_date <- rmarkdown::metadata$date
 omp_date <- as.Date(class_date, format = '%B %d, %Y') - 7
 omp_date <- paste0(month(omp_date, label = TRUE, abbr = FALSE), ' ', day(omp_date))
