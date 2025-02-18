@@ -26,8 +26,8 @@ mean(pop)
 median(pop)
 
 ##### Sampling Distribution
-samp_dist_mean = numeric(n_samples)
-samp_dist_median = numeric(n_samples)
+samp_dist_mean <- numeric(n_samples)
+samp_dist_median <- numeric(n_samples)
 for(i in 1:n_samples) {
 	samp <- sample(pop, size = n)
 	samp_dist_mean[i] <- mean(samp)
@@ -66,8 +66,8 @@ median(samp)
 se(samp)
 
 n_boot <- 1000
-boot_dist_mean = numeric(n_boot)
-boot_dist_median = numeric(n_boot)
+boot_dist_mean <- numeric(n_boot)
+boot_dist_median <- numeric(n_boot)
 for(i in 1:n_boot) {
 	boot_samp <- sample(samp, size = length(samp), replace = TRUE)
 	boot_dist_mean[i] <- mean(boot_samp)
@@ -87,6 +87,23 @@ ggplot() +
 
 mean(pop)
 mean(boot_dist_mean)
+
+# Shapiro-Wilk’s method
+shapiro.test(boot_dist_mean)
+shapiro.test(boot_dist_median)
+
+# Kolmogorov-Smirnov Tests
+ks.test(boot_dist_mean, 'pnorm')
+ks.test(boot_dist_median, 'pnorm')
+
+# If skewness is less than -1 or greater than 1, the distribution is highly skewed.
+# If skewness is between -1 and -0.5 or between 0.5 and 1, the distribution is moderately skewed.
+# If skewness is between -0.5 and 0.5, the distribution is approximately symmetric.
+psych::skew(boot_dist_mean)
+psych::skew(boot_dist_median)
+
+psych::kurtosi(boot_dist_mean)
+psych::kurtosi(boot_dist_median)
 
 median(pop)
 median(samp_dist_median)
