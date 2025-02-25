@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Chapter 7 - Inference for Numerical Data – DAV 5300 Spring 2025</title>
+<title>Announcements – DAV 5300 Spring 2025</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,25 +23,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="../site_libs/clipboard/clipboard.min.js"></script>
-<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="../site_libs/quarto-search/fuse.min.js"></script>
-<script src="../site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="../">
-<link href="../chapters/chapter8.html" rel="next">
-<link href="../chapters/chapter6.html" rel="prev">
-<script src="../site_libs/quarto-html/quarto.js"></script>
-<script src="../site_libs/quarto-html/popper.min.js"></script>
-<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="../site_libs/quarto-html/anchor.min.js"></script>
-<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./index.html" rel="next">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -69,8 +70,37 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<link href="../fullcalendar-lib/main.css" rel="stylesheet">
-<script type="text/javascript" src="../fullcalendar-lib/main.js"></script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-description','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+<link href="./fullcalendar-lib/main.css" rel="stylesheet">
+<script type="text/javascript" src="./fullcalendar-lib/main.js"></script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -102,7 +132,8 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Chapter 7 - Inference for Numerical Data – DAV 5300 Spring 2025">
+<meta property="og:title" content="Announcements – DAV 5300 Spring 2025">
+<meta property="og:description" content="DAV5300 - Computational Math and Statistics - Yeshiva University">
 <meta property="og:site_name" content="DAV 5300 Spring 2025">
 </head>
 
@@ -115,7 +146,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1.html">Topics</a></li><li class="breadcrumb-item"><a href="../chapters/chapter7.html">7 - Inference for Numerical Data</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./announcements.html">Announcements</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -129,11 +160,11 @@ window.Quarto = {
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
     <div class="pt-lg-2 mt-2 text-center sidebar-header">
-      <a href="../index.html" class="sidebar-logo-link">
-      <img src="../images/course_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./images/course_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
       </a>
       <div class="sidebar-tools-main tools-wide">
-    <a href="../index.html" title="Schedule" class="quarto-navigation-tool px-1" aria-label="Schedule"><i class="bi bi-calendar-check"></i></a>
+    <a href="./index.html" title="Schedule" class="quarto-navigation-tool px-1" aria-label="Schedule"><i class="bi bi-calendar-check"></i></a>
     <a href="https://github.com/jbryer/DAV5300-2025-Spring" title="Github" class="quarto-navigation-tool px-1" aria-label="Github" target="_blank"><i class="bi bi-github"></i></a>
     <a href="https://dav5300spring2025.slack.com" title="Slack" class="quarto-navigation-tool px-1" aria-label="Slack"><i class="bi bi-slack"></i></a>
     <div class="dropdown">
@@ -164,13 +195,13 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../announcements.html" class="sidebar-item-text sidebar-link">
+  <a href="./announcements.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Announcements</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Schedule</span></a>
   </div>
 </li>
@@ -185,37 +216,37 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../course/syllabus.html" class="sidebar-item-text sidebar-link">
+  <a href="./course/syllabus.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Syllabus</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../course/instructor.html" class="sidebar-item-text sidebar-link">
+  <a href="./course/instructor.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Instructor</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../course/textbooks.html" class="sidebar-item-text sidebar-link">
+  <a href="./course/textbooks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Textbooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../course/software.html" class="sidebar-item-text sidebar-link">
+  <a href="./course/software.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Software</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../course/materials.html" class="sidebar-item-text sidebar-link">
+  <a href="./course/materials.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Materials</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../assignments/project.html" class="sidebar-item-text sidebar-link">
+  <a href="./assignments/project.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Data Project</span></a>
   </div>
 </li>
@@ -232,61 +263,61 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter1.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/chapter1.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">1 - Intro to Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter2.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/chapter2.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">2 - Summarizing Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter3.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/chapter3.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">3 - Probability</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter4.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/chapter4.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">4 - Distributions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter5.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/chapter5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">5 - Foundations for Inference</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter6.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/chapter6.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">6 - Inference for Categorical Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter7.html" class="sidebar-item-text sidebar-link active">
+  <a href="./chapters/chapter7.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">7 - Inference for Numerical Data</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter8.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/chapter8.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">8 - Linear Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/chapter9.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/chapter9.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">9 - Multiple and Logistic Regression</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/bayesian.html" class="sidebar-item-text sidebar-link">
+  <a href="./chapters/bayesian.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Bayesian</span></a>
   </div>
 </li>
@@ -301,9 +332,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter1.html">Topics</a></li><li class="breadcrumb-item"><a href="../chapters/chapter7.html">7 - Inference for Numerical Data</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Chapter 7 - Inference for Numerical Data</h1>
+<h1 class="title">Announcements</h1>
 </div>
 
 
@@ -320,110 +351,68 @@ window.Quarto = {
 </header>
 
 
-<!-- 
-See issue with underscores in MathJax equations here: https://gohugo.io/content-management/formats/#issues-with-markdown
-The solution, put backticks (`) around the LaTeX equation
--->
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {
-    inlineMath: [['$','$'], ['\\(','\\)']],
-    displayMath: [['$$','$$'], ['\[','\]']],
-    processEscapes: true,
-    processEnvironments: true,
-    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-    TeX: { equationNumbers: { autoNumber: "AMS" },
-         extensions: ["AMSmath.js", "AMSsymbols.js"] }
-  }
-});
-</script>
-<script type="text/javascript" async="" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-<section id="learning-outcomes" class="level3">
-<h3 class="anchored" data-anchor-id="learning-outcomes">Learning Outcomes</h3>
-<ul>
-<li>Use the <span class="math inline">\(t\)</span>-distribution for inference on a single mean, difference of paired (dependent) means, and difference of independent means.</li>
-<li>Explain why the <span class="math inline">\(t\)</span>-distribution helps make up for the additional variability introduced by using <span class="math inline">\(s\)</span> (sample standard deviation) in calculation of the standard error, in place of <span class="math inline">\(\sigma\)</span> (population standard deviation).</li>
-<li>Describe how the <span class="math inline">\(t\)</span>-distribution is different from the normal distribution, and what ?heavy tail? means in this context.</li>
-<li>Note that the <span class="math inline">\(t\)</span>-distribution has a single parameter, degrees of freedom, and as the degrees of freedom increases this distribution approaches the normal distribution.</li>
-<li>Use a <span class="math inline">\(t\)</span>-statistic, with degrees of freedom <span class="math inline">\(df = n - 1\)</span> for inference for a population mean:
-<ul>
-<li>Standard error: <span class="math inline">\(SE = \frac{s}{\sqrt{n}}\)</span></li>
-<li>Confidence interval: <code>$\bar{x} \pm t_{df}^\star SE$</code></li>
-<li>Hypothesis test: <code>$T_{df} = \frac{\bar{x} - \mu}{SE}$</code> \end{itemize}</li>
-</ul></li>
-<li>Describe how to obtain a p-value for a <span class="math inline">\(t\)</span>-test and a critical <span class="math inline">\(t\)</span>-score (<code>$t^\star_{df}$</code>) for a confidence interval.</li>
-<li>Define observations as paired if each observation in one dataset has a special correspondence or connection with exactly one observation in the other data set.</li>
-<li>Carry out inference for paired data by first subtracting the paired observations from each other, and then treating the set of differences as a new numerical variable on which to do inference (such as a confidence interval or hypothesis test for the average difference).</li>
-<li>Calculate the standard error of the difference between means of two paired (dependent) samples as <code>$SE = \frac{s_{diff}}{\sqrt{n_{diff}}}$</code> and use this standard error in hypothesis testing and confidence intervals comparing means of paired (dependent) groups.</li>
-<li>Use a <span class="math inline">\(t\)</span>-statistic, with degrees of freedom <code>$df = n_{diff} - 1$</code> for inference for a population mean: \begin{itemize}
-<ul>
-<li>Standard error: <span class="math inline">\(SE = \frac{s}{\sqrt{n}}\)</span></li>
-<li>Confidence interval: <code>$\bar{x}_{diff} \pm t_{df}^\star SE$</code></li>
-<li>Hypothesis test: <code>$T_{df} = \frac{\bar{x}_{diff} - \mu_{diff}}{SE}$</code>. Note that <code>$\mu_{diff}$</code> is often 0, since often <code>$H_0: \mu_{diff} = 0$</code>.</li>
-</ul></li>
-<li>Recognize that a good interpretation of a confidence interval for the difference between two parameters includes a comparative statement (mentioning which group has the larger parameter).</li>
-<li>Recognize that a confidence interval for the difference between two parameters that doesn?t include 0 is in agreement with a hypothesis test where the null hypothesis that sets the two parameters equal to each other is rejected.</li>
-<li>Calculate the standard error of the difference between means of two independent samples as <code>$SE = \sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$</code>, and use this standard error in hypothesis testing and confidence intervals comparing means of independent groups.</li>
-<li>Use a <span class="math inline">\(t\)</span>-statistic, with degrees of freedom <code>$df = min(n_1 - 1, n_2 - 1)$</code> for inference for a population mean:
-<ul>
-<li>Standard error: <code>$\sqrt{\frac{s_1^2}{n_1} + \frac{s_2^2}{n_2}}$</code></li>
-<li>Confidence interval: <code>$(\bar{x}_1 - \bar{x}_2) \pm t_{df}^\star SE$</code></li>
-<li>Hypothesis test: <code>$T_{df} = \frac{(\bar{x}_1 - \bar{x}_2) - (\mu_1 - \mu_2)}{SE}$</code>. Note that <span class="math inline">\(\mu_{diff}\)</span> is often 0, since often <code>$H_0: \mu_1 - \mu_2 = 0$</code>.</li>
-</ul></li>
-<li>Calculate the power of a test for a given effect size and significance level in two steps: (1) Find the cutoff for the sample statistic that will allow the null hypothesis to be rejected at the given significance level, (2) Calculate the probability of obtaining that sample statistic given the effect size.</li>
-<li>Explain how power changes for changes in effect size, sample size, significance level, and standard error.</li>
-<li>Define analysis of variance (ANOVA) as a statistical inference method that is used to determine if the variability in the sample means is so large that it seems unlikely to be from chance alone by simultaneously considering many groups at once.</li>
-<li>Recognize that the null hypothesis in ANOVA sets all means equal to each other, and the alternative hypothesis suggest that at least one mean is different. \begin{itemize}
-<ul>
-<li><code>$H_0: \mu_1 = \mu_2 = \cdots = \mu_k$</code></li>
-<li><span class="math inline">\(H_A:\)</span> At least one mean is different</li>
-</ul></li>
-<li>List the conditions necessary for performing ANOVA
-<ol type="1">
-<li>the observations should be independent within and across groups</li>
-<li>the data within each group are nearly normal</li>
-<li>the variability across the groups is about equal<br>
-and check if they are met using graphical diagnostics.</li>
-</ol></li>
-<li>Recognize that the test statistic for ANOVA, the F statistic, is calculated as the ratio of the mean square between groups (MSG, variability between groups) and mean square error (MSE, variability within errors), and has two degrees of freedom, one for the numerator (<code>$df_{G} = k - 1$</code>, where <span class="math inline">\(k\)</span> is the number of groups) and one for the denominator (<code>$df_{E} = n - k$</code>, where <span class="math inline">\(n\)</span> is the total sample size).
-<ul>
-<li>Note that you won’t be expected to calculate MSG or MSE from the raw data, but you should have a conceptual understanding of how they’re calculated and what they measure.</li>
-</ul></li>
-<li>Describe why calculation of the p-value for ANOVA is always “one sided”.</li>
-<li>Describe why conducting many <span class="math inline">\(t\)</span>-tests for differences between each pair of means leads to an increased Type 1 Error rate, and we use a corrected significance level (Bonferroni corection, <span class="math inline">\(\alpha^\star = \alpha / K\)</span>, where <span class="math inline">\(K\)</span> is the e number of comparisons being considered) to combat inflating this error rate.</li>
-<li>Describe why it is possible to reject the null hypothesis in ANOVA but not find significant differences between groups as a result of pairwise comparisons.</li>
-</ul>
-</section>
-<section id="supplemental-readings" class="level3">
-<h3 class="anchored" data-anchor-id="supplemental-readings">Supplemental Readings</h3>
-<ul>
-<li><a href="https://github.com/jbryer/DATA606Fall2020/blob/master/Slides/OpenIntro/chp7.pdf">OpenIntro Statistics slides</a></li>
-</ul>
-</section>
-<section id="videos" class="level3">
-<h3 class="anchored" data-anchor-id="videos">Videos</h3>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/uVEj2uBJfq0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/RYVIGj1l4xs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/K0QZ9_4w0HU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/emZ24asR2F4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/vnjjhQDedvs" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/W36DMVJ4Ibo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/HGFiWMA5OC8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/THG0P3YNbdI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="">
-</iframe>
+<p>Be sure to check this page regularly for updates. In addition to periodic updates about the course, slides and recordings of the weekly meetups will be posted here.</p>
 
 
-</section>
 
-</main> <!-- /main -->
+
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="Miscellaneous" data-listing-date-sort="1741237200000" data-listing-file-modified-sort="1738959406000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="933">
+<div class="thumbnail">
+<p><a href="./posts/2025-03-06-Waiting_to_pass_exam.html" class="no-external"></a></p><a href="./posts/2025-03-06-Waiting_to_pass_exam.html" class="no-external">
+<p><img loading="lazy" src="./posts/2025-03-06-Waiting_to_pass_exam.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2025-03-06-Waiting_to_pass_exam.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/2025-03-06-Waiting_to_pass_exam.html" class="no-external">How many times do I need to take a test to randomly get all questions correct?</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/2025-03-06-Waiting_to_pass_exam.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="./posts/2025-03-06-Waiting_to_pass_exam.html" class="no-external">Darrin Rogers asked on Mastadon what are the “number of tries it would take, guessing randomly, to get 100% on a quiz if you had unlimited retries.” Here we will outline two…</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/2025-03-06-Waiting_to_pass_exam.html" class="no-external">
+<div class="listing-date">
+Mar 6, 2025
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1737090000000" data-listing-file-modified-sort="1737125254000" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="156">
+<div class="thumbnail">
+<p><a href="./posts/2024-08-28-Welcome.html" class="no-external"></a></p><a href="./posts/2024-08-28-Welcome.html" class="no-external">
+<p><img loading="lazy" src="./posts/welcome.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2024-08-28-Welcome.html" class="no-external"></a></p>
+</div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/2024-08-28-Welcome.html" class="no-external">Welcome to DAV 5300!</a>
+</h3>
+<div class="listing-subtitle">
+<a href="./posts/2024-08-28-Welcome.html" class="no-external"></a>
+</div>
+<div class="listing-description">
+<a href="./posts/2024-08-28-Welcome.html" class="no-external">Important information on how to get started with this course. Please read this post carefully.</a>
+</div>
+</div>
+<div class="metadata">
+<a href="./posts/2024-08-28-Welcome.html" class="no-external">
+<div class="listing-date">
+Jan 17, 2025
+</div>
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -990,13 +979,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter6.html" class="pagination-link" aria-label="6 - Inference for Categorical Data">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">6 - Inference for Categorical Data</span>
-      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/chapter8.html" class="pagination-link" aria-label="8 - Linear Regression">
-        <span class="nav-page-text">8 - Linear Regression</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./index.html" class="pagination-link" aria-label="Schedule">
+        <span class="nav-page-text">Schedule</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -1005,4 +991,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/jbryer/DAV5300-2025-Spring/edit/master/website/chapters/chapter7.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/jbryer/DAV5300-2025-Spring/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/jbryer/DAV5300-2025-Spring/edit/master/website/announcements.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/jbryer/DAV5300-2025-Spring/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
