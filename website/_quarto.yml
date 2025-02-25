@@ -41,7 +41,7 @@ website:
     # List of available icons: https://icons.getbootstrap.com
     tools:
       - icon: calendar-check
-        href: course/schedule.qmd
+        href: index.qmd
         text: "Schedule"
       - icon: github
         href: https://github.com/jbryer/DAV5300-2025-Spring
@@ -67,9 +67,9 @@ website:
     search: true
     collapse-level: 2
     contents:
-      - href: "index.qmd"
+      - href: "announcements.qmd"
         text: "Announcements"
-      - href: "course/schedule.qmd"
+      - href: "index.qmd"
         text: "Schedule"
       - section: "Course information"
         contents:
