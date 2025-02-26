@@ -730,7 +730,7 @@ aov(Bacterial_Counts ~ Method, data = hand_washing) |&gt; summary()
 ---
 # More Information
 
-ANOVA Vignette in the `VisualStats` package: https://jbryer.github.io/VisualStats/articles/anova.html
+ANOVA Vignette in the `VisualStats` package: https://visualstats.bryer.org/anova.html
 
 The plots were created using the `VisualStats::anova_vis()` function.
 
@@ -740,8 +740,7 @@ Shiny app:
 ``` r
 remotes::install_github('jbryer/VisualStats')
 library(VisualStats)
-library(ShinyDemo)
-shiny_demo('anova', package = 'VisualStats')
+anova_shiny()
 ```
 
 
@@ -836,14 +835,14 @@ https://forms.gle/sTwKB3HivjtbafBb7
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
-"highlightStyle": "solarized-light",
-"highlightLanguage": "R",
-"highlightLines": true,
-"countIncrementalSlides": false,
-"ratio": "16:9",
-"navigation": {
-"scroll": false
-}
+  "highlightStyle": "solarized-light",
+  "highlightLanguage": "R",
+  "highlightLines": true,
+  "countIncrementalSlides": false,
+  "ratio": "16:9",
+  "navigation": {
+    "scroll": false
+  }
 });
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
