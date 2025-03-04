@@ -15,7 +15,7 @@ library(ggplot2)
 set.seed(2112)
 options(scipen = 999)
 source('../../config.R')
-meetup_image(out_file = '2025-03-06-Waiting_to_pass_exam.png',
+meetup_image(out_file = '2025-02-06-Waiting_to_pass_exam.png',
 			 title = 'How many times do I need to take a test to randomly get all questions correct?',
 			 date = ' ')
 ```
