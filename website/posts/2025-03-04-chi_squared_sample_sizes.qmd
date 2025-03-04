@@ -78,7 +78,7 @@ $$ \chi^2 = \sum{\frac{(O - E)^2}{E}} $$
 
 where *O* is the observed count and *E* is the expected count. Unlike the standard error for numerical data, *n* is not explicitly in the formula and therefore makes it a bit more challenging to determine the impact sample size has rejecting the *null* hypothesis. Moreover, since the chi-squared is calculated from the cell counts in a table of varying length and dimension (one- or two-dimensions specifically) determining how *n* impacts rejecting the *null* or not requires more parameters. 
 
-Answering the question of how large does *n* need to be to detect a statistically significant result (i.e. to reject the *null* hypothesis) is refereed to as [power](https://en.wikipedia.org/wiki/Power_(statistics). Whereas for calculating the power for numerical data had one parameter, the sample standard deviation, here we need to consider the proportion of observations within different cells. For example, consider we have a variable with three levels and we expect the proportion of observations in the three groups to be 33%, 25%, and 42%, respectively. If our sample size is 100 then we expect there to be 33, 25, and 42 and observations for the three categories. This function will, for varying sample sizes, calculate the counts for the categories to achieve that sample size, estimate the chi-squared statistic and record the *p*-value. There are other parameters that are documented below. A `plot` function is also defined using the [S3 objected oriented framework](http://adv-r.had.co.nz/S3.html).
+Answering the question of how large does *n* need to be to detect a statistically significant result (i.e. to reject the *null* hypothesis) is refereed to as [power](https://en.wikipedia.org/wiki/Power_(statistics)). Whereas for calculating the power for numerical data had one parameter, the sample standard deviation, here we need to consider the proportion of observations within different cells. For example, consider we have a variable with three levels and we expect the proportion of observations in the three groups to be 33%, 25%, and 42%, respectively. If our sample size is 100 then we expect there to be 33, 25, and 42 and observations for the three categories. This function will, for varying sample sizes, calculate the counts for the categories to achieve that sample size, estimate the chi-squared statistic and record the *p*-value. There are other parameters that are documented below. A `plot` function is also defined using the [S3 objected oriented framework](http://adv-r.had.co.nz/S3.html).
 
 
 ```{r}
@@ -169,7 +169,7 @@ Returning to our example above where the cell proportions are 33%, 25%, and 42%,
 
 ```{r}
 csp1 <- chi_squared_power(probs =  c(.33, .25, .42))
-csp1[csp1$sig,]$n |> min(na.rm = TRUE) # Minimal n that results in p < 0.05
+csp1[csp1$sig,]$n |> min(na.rm = TRUE) # Smallest n that results in p < 0.05
 plot(csp1)
 ```
 
@@ -177,7 +177,7 @@ In the next example we have much smaller differences between the cells with 25%,
 
 ```{r}
 csp3 <- chi_squared_power(probs = c(.25, .25, .24, .26), max_n = 20000)
-csp3[csp3$sig,]$n |> min(na.rm = TRUE) # Minimal n that results in p < 0.05
+csp3[csp3$sig,]$n |> min(na.rm = TRUE) # Smallest n that results in p < 0.05
 plot(csp3)
 ```
 
