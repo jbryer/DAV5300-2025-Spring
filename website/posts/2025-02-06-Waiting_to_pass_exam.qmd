@@ -5,7 +5,7 @@ date: 2025-02-06
 draft: false
 description: ""
 categories: ["Miscellaneous"]
-image: "2025-02-06-Waiting_to_pass_exam.qmd"
+image: "2025-02-06-Waiting_to_pass_exam.png"
 editor_options: 
   chunk_output_type: console
 ---

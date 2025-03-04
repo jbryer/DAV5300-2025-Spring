@@ -2,9 +2,9 @@
   {
     "listing": "/announcements.html",
     "items": [
+      "/posts/2024-08-28-Welcome.html",
       "/posts/2025-02-06-Waiting_to_pass_exam.html",
-      "/posts/2025-03-04-chi_squared_sample_sizes.html",
-      "/posts/2024-08-28-Welcome.html"
+      "/posts/2025-03-04-chi_squared_sample_sizes.html"
     ]
   }
 ]
