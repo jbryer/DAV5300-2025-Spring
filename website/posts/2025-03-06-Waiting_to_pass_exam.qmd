@@ -146,7 +146,7 @@ mean(simulations2)
 median(simulations2)
 ```
 
-Or using the geomtric distribution:
+Or using the geometric distribution:
 
 ```{r}
 qgeom(0.50, prob = p_pass)
