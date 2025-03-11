@@ -441,74 +441,194 @@ window.Quarto = {
 <span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param min_cell_size minimum size per cell to perform the chi-square test.</span></span>
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param n_start the starting sample size.</span></span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param n_step the increment for each iteration.</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return a data.frame with three columns: n (sample size), p_value, and sig (TRUE if p_value &lt; sig_level).</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>chi_squared_power <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        probs,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">sig_level =</span> <span class="fl">0.05</span>,</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">p_stop =</span> <span class="fl">0.01</span>,</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">max_n =</span> <span class="dv">10000</span>,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">min_cell_size =</span> <span class="dv">10</span>,</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_start =</span> <span class="dv">10</span>,</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_step =</span> <span class="dv">10</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">sum</span>(probs) <span class="sc">!=</span> <span class="dv">1</span>) { <span class="co"># Make sure the sum is equal to 1</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">'The sum of the probabilities must equal 1.'</span>)</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> n_start</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    p_values <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">repeat</span> {</span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        x <span class="ot">&lt;-</span> (probs <span class="sc">*</span> n) <span class="sc">|&gt;</span> <span class="fu">round</span>()</span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">all</span>(x <span class="sc">&gt;</span> <span class="dv">10</span>)) {</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>            cs <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(x, <span class="at">rescale.p =</span> <span class="cn">TRUE</span>, <span class="at">simulate.p.value =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>            p_values <span class="ot">&lt;-</span> <span class="fu">c</span>(p_values, cs<span class="sc">$</span>p.value)</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span>(cs<span class="sc">$</span>p.value <span class="sc">&lt;</span> p_stop <span class="sc">|</span> n <span class="sc">&gt;</span> max_n) {</span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span>;</span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>            p_values <span class="ot">&lt;-</span> <span class="fu">c</span>(p_values, <span class="cn">NA</span>)</span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        n <span class="ot">&lt;-</span> n <span class="sc">+</span> n_step</span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="fu">length</span>(p_values) <span class="sc">*</span> n_step, n_step),</span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>                         <span class="at">p_value =</span> p_values,</span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sig =</span> p_values <span class="sc">&lt;</span> sig_level)</span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">class</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'chisqpower'</span>, <span class="st">'data.frame'</span>)</span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'probs'</span>) <span class="ot">&lt;-</span> probs</span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'sig_level'</span>) <span class="ot">&lt;-</span> sig_level</span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'p_stop'</span>) <span class="ot">&lt;-</span> p_stop</span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'max_n'</span>) <span class="ot">&lt;-</span> max_n</span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'n_step'</span>) <span class="ot">&lt;-</span> n_step</span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(result)</span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="co">#' Plot the results of chi-squared power estimation</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
-<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param x result of [chi_squared_power()].</span></span>
-<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param digits number of digits to round to.</span></span>
-<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a><span class="co">#' @parma ... currently not used.</span></span>
-<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return a ggplot2 expression.</span></span>
-<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>plot.chisqpower <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">digits =</span> <span class="dv">4</span>, ...) {</span>
-<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(x[<span class="sc">!</span><span class="fu">is.na</span>(x<span class="sc">$</span>p_value),], <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> p_value)) <span class="sc">+</span></span>
-<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_segment</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>), <span class="at">yend =</span> <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>)) <span class="sc">+</span></span>
-<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">'text'</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span>  <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>),</span>
-<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>                 <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">'p = '</span>,  <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>)),</span>
-<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_segment</span>(<span class="at">x =</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">xend =</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>                     <span class="at">y =</span> <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>), <span class="at">yend =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
-<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>        ggplot2<span class="sc">::</span><span class="fu">annotate</span>(<span class="at">geom =</span> <span class="st">'text'</span>, <span class="at">x =</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">y =</span> <span class="dv">0</span>,</span>
-<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>                 <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">'n = '</span>, <span class="fu">prettyNum</span>(<span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">big.mark =</span> <span class="st">','</span>)),</span>
-<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>                 <span class="at">vjust =</span> <span class="dv">0</span>, <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_path</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> sig), <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>        <span class="fu">scale_color_brewer</span>(<span class="fu">paste0</span>(<span class="st">'p &lt; '</span>, <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>)), <span class="at">type =</span> <span class="st">'qual'</span>, <span class="at">palette =</span> <span class="dv">6</span>) <span class="sc">+</span></span>
-<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>        <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ylab</span>(<span class="st">'p-value'</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">'Sample Size'</span>) <span class="sc">+</span></span>
-<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggtitle</span>(<span class="fu">paste0</span>(<span class="st">'Smallest n where p &lt; '</span>, <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>), <span class="st">': '</span>,</span>
-<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>                       <span class="fu">prettyNum</span>(<span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">big.mark =</span> <span class="st">','</span>)),</span>
-<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>                <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">'Probabilities: '</span>, <span class="fu">paste0</span>(<span class="fu">round</span>(<span class="fu">attr</span>(x, <span class="st">'probs'</span>), <span class="at">digits =</span> digits), <span class="at">collapse =</span> <span class="st">', '</span>)))</span>
-<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return a data.frame with three columns: n (sample size), p_value, and sig (TRUE if</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#'         p_value &lt; sig_level).</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#' @importFrom DescTools power.chisq.test CramerV</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>chi_squared_power <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        probs,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">sig_level =</span> <span class="fl">0.05</span>,</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">p_stop =</span> <span class="fl">0.01</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">power =</span> <span class="fl">0.80</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">power_stop =</span> <span class="fl">0.90</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">max_n =</span> <span class="dv">100000</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">min_cell_size =</span> <span class="dv">10</span>,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_start =</span> <span class="dv">10</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="at">n_step =</span> <span class="dv">10</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">sum</span>(probs) <span class="sc">!=</span> <span class="dv">1</span>) { <span class="co"># Make sure the sum is equal to 1</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">'The sum of the probabilities must equal 1.'</span>)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span>(<span class="fu">length</span>(<span class="fu">unique</span>(probs)) <span class="sc">==</span> <span class="dv">1</span>) {</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="fu">stop</span>(<span class="st">'All the probabilities are equal.'</span>)</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> n_start</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    p_values <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    power_values <span class="ot">&lt;-</span> <span class="fu">numeric</span>()</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    df <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">is.vector</span>(probs),</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">length</span>(probs) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">min</span>(<span class="fu">dim</span>(probs)) <span class="sc">-</span> <span class="dv">1</span>) <span class="co"># Degrees of freedom</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">repeat</span> {</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        x <span class="ot">&lt;-</span> (probs <span class="sc">*</span> n) <span class="sc">|&gt;</span> <span class="fu">round</span>()</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">all</span>(x <span class="sc">&gt;</span> min_cell_size)) {</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>            cs <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(x, <span class="at">rescale.p =</span> <span class="cn">TRUE</span>, <span class="at">simulate.p.value =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>            p_values[n <span class="sc">/</span> n_step] <span class="ot">&lt;-</span> cs<span class="sc">$</span>p.value</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>            pow <span class="ot">&lt;-</span> DescTools<span class="sc">::</span><span class="fu">power.chisq.test</span>(</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>                <span class="at">n =</span> n,</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>                <span class="at">w =</span> DescTools<span class="sc">::</span><span class="fu">CramerV</span>(<span class="fu">as.table</span>(x)),</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>                <span class="at">df =</span> df,</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>                <span class="at">sig.level =</span> sig_level</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>            power_values[n <span class="sc">/</span> n_step] <span class="ot">&lt;-</span> pow<span class="sc">$</span>power</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span>((cs<span class="sc">$</span>p.value <span class="sc">&lt;</span> p_stop <span class="sc">&amp;</span> pow<span class="sc">$</span>power <span class="sc">&gt;</span> power_stop) <span class="sc">|</span> n <span class="sc">&gt;</span> max_n) {</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>                <span class="cf">break</span>;</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>            p_values[n <span class="sc">/</span> n_step] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>            power_values[n <span class="sc">/</span> n_step] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>        n <span class="ot">&lt;-</span> n <span class="sc">+</span> n_step</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>    result <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">n =</span> <span class="fu">seq</span>(<span class="dv">10</span>, <span class="fu">length</span>(p_values) <span class="sc">*</span> n_step, n_step),</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>                         <span class="at">p_value =</span> p_values,</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>                         <span class="at">sig =</span> p_values <span class="sc">&lt;</span> sig_level,</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>                         <span class="at">power =</span> power_values)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">class</span>(result) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">'chisqpower'</span>, <span class="st">'data.frame'</span>)</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'probs'</span>) <span class="ot">&lt;-</span> probs</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'sig_level'</span>) <span class="ot">&lt;-</span> sig_level</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'p_stop'</span>) <span class="ot">&lt;-</span> p_stop</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'power'</span>) <span class="ot">&lt;-</span> power</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'power_stop'</span>) <span class="ot">&lt;-</span> power_stop</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'max_n'</span>) <span class="ot">&lt;-</span> max_n</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>    <span class="fu">attr</span>(result, <span class="st">'n_step'</span>) <span class="ot">&lt;-</span> n_step</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(result)</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a><span class="co">#' Plot the results of chi-squared power estimation</span></span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param x result of [chi_squared_power()].</span></span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param plot_power whether to plot the power curve.</span></span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param plot_p whether to plot p-values.</span></span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param digits number of digits to round to.</span></span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param segement_color color of the lines marking where power and p values exceed threshold.</span></span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param sgement_linetype linetype of the lines marking where power and p values exceed threshold.</span></span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param p_linetype linetype for the p-values.</span></span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param power_linetype linetype for the power values.</span></span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param title plot title. If missing a title will be automatically generated.</span></span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a><span class="co">#' @parma ... currently not used.</span></span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return a ggplot2 expression.</span></span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>plot.chisqpower <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>        x,</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot_power =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot_p =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>        <span class="at">digits =</span> <span class="dv">4</span>,</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>        <span class="at">segment_color =</span> <span class="st">'grey60'</span>,</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>        <span class="at">segment_linetype =</span> <span class="dv">1</span>,</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>        <span class="at">p_linetype =</span> <span class="dv">1</span>,</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>        <span class="at">power_linetype =</span> <span class="dv">2</span>,</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>        title,</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>        ...</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>    pow <span class="ot">&lt;-</span> <span class="fu">attr</span>(x, <span class="st">'power'</span>)</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(x[<span class="sc">!</span><span class="fu">is.na</span>(x<span class="sc">$</span>p_value),], <span class="fu">aes</span>(<span class="at">x =</span> n, <span class="at">y =</span> p_value))</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(plot_power) {</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">any</span>(x<span class="sc">$</span>power <span class="sc">&gt;</span> pow, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>            min_n_power <span class="ot">&lt;-</span> <span class="fu">min</span>(x[x<span class="sc">$</span>power <span class="sc">&gt;</span> pow,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>            p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>                <span class="fu">geom_segment</span>(</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> <span class="dv">0</span>,</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xend =</span> min_n_power,</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> pow,</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>                    <span class="at">yend =</span> pow,</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>                    <span class="at">color =</span> segment_color,</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>                    <span class="at">linetype =</span> segment_linetype) <span class="sc">+</span></span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">annotate</span>(</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>                    <span class="at">geom =</span> <span class="st">'text'</span>,</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> <span class="dv">0</span>,</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span>  pow,</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>                    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">'Power = '</span>,  pow),</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>                    <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>                <span class="fu">geom_segment</span>(</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> min_n_power,</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xend =</span> min_n_power,</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> pow,</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>                    <span class="at">yend =</span> <span class="dv">0</span>,</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>                    <span class="at">color =</span> segment_color,</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>                    <span class="at">linetype =</span> segment_linetype) <span class="sc">+</span></span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">annotate</span>(</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>                    <span class="at">geom =</span> <span class="st">'text'</span>,</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> min_n_power, <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>                    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">'n = '</span>, <span class="fu">prettyNum</span>(min_n_power, <span class="at">big.mark =</span> <span class="st">','</span>)),</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>                    <span class="at">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>)</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>        p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_path</span>(</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">y =</span> power),</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>                <span class="at">color =</span> <span class="st">'#7570b3'</span>,</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>                <span class="at">linetype =</span> power_linetype)</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(plot_p) {</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">any</span>(x<span class="sc">$</span>sig, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>            p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>                <span class="fu">geom_segment</span>(</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> <span class="dv">0</span>,</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xend =</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>),</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>                    <span class="at">yend =</span> <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>),</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>                    <span class="at">color =</span> segment_color,</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>                    <span class="at">linetype =</span> segment_linetype) <span class="sc">+</span></span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">annotate</span>(</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>                    <span class="at">geom =</span> <span class="st">'text'</span>,</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> <span class="dv">0</span>,</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span>  <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>),</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>                    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">'p = '</span>,  <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>)),</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>                    <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>,</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>                <span class="fu">geom_segment</span>(</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xend =</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>),</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>                    <span class="at">yend =</span> <span class="dv">0</span>,</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>                    <span class="at">color =</span> segment_color,</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>                    <span class="at">linetype =</span> segment_linetype) <span class="sc">+</span></span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>                ggplot2<span class="sc">::</span><span class="fu">annotate</span>(</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>                    <span class="at">geom =</span> <span class="st">'text'</span>,</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>                    <span class="at">x =</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y =</span> <span class="dv">0</span>,</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>                    <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">'n = '</span>, <span class="fu">prettyNum</span>(<span class="fu">min</span>(x[x<span class="sc">$</span>sig,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">big.mark =</span> <span class="st">','</span>)),</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>                    <span class="at">vjust =</span> <span class="dv">1</span>,</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>                    <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>)</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>        p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_path</span>(</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>                <span class="at">alpha =</span> <span class="fl">0.7</span>,</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>                <span class="at">linetype =</span> p_linetype)</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>            <span class="co"># geom_point(aes(color = sig), size = 1) +</span></span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>            <span class="co"># scale_color_brewer(paste0('p &lt; ', attr(x, 'sig_level')), type = 'qual', palette = 6)</span></span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">missing</span>(title)) {</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">any</span>(x<span class="sc">$</span>power <span class="sc">&gt;</span> pow, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">&amp;</span> <span class="fu">any</span>(x<span class="sc">$</span>sig, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>            min_n <span class="ot">&lt;-</span> <span class="fu">min</span>(x[x<span class="sc">$</span>sig <span class="sc">&amp;</span> x<span class="sc">$</span>power <span class="sc">&gt;</span> pow,]<span class="sc">$</span>n, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>            title <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'Smallest n where p &lt; '</span>, <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>), <span class="st">' and power &gt; '</span>, pow, <span class="st">': '</span>,</span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">prettyNum</span>(min_n, <span class="at">big.mark =</span> <span class="st">','</span>))</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a>            title <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'No n found where p &lt; '</span>, <span class="fu">attr</span>(x, <span class="st">'sig_level'</span>), <span class="st">' and power &gt; '</span>, pow)</span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>    p <span class="ot">&lt;-</span> p <span class="sc">+</span></span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ylab</span>(<span class="st">''</span>) <span class="sc">+</span></span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>        <span class="fu">xlab</span>(<span class="st">'Sample Size'</span>) <span class="sc">+</span></span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggtitle</span>(title,</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>                <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="st">'Probabilities: '</span>, <span class="fu">paste0</span>(<span class="fu">round</span>(<span class="fu">attr</span>(x, <span class="st">'probs'</span>), <span class="at">digits =</span> digits), <span class="at">collapse =</span> <span class="st">', '</span>)))</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(p)</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Returning to our example above where the cell proportions are 33%, 25%, and 42%, we would need <span class="math inline">\(n \ge 130\)</span> to reject the <em>null</em> hypothesis.</p>
 <div class="cell" data-layout-align="center">
@@ -569,12 +689,32 @@ gender  Democrat Independent Republican
 data:  M
 X-squared = 30.07, df = 2, p-value = 0.0000002954</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">CramerV</span>(M) <span class="co"># Effect size</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1044358</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>DescTools<span class="sc">::</span><span class="fu">power.chisq.test</span>(<span class="at">n =</span> <span class="fu">sum</span>(M),</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">w =</span> DescTools<span class="sc">::</span><span class="fu">CramerV</span>(M),</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>                            <span class="at">df =</span> <span class="fu">min</span>(<span class="fu">dim</span>(M)) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                            <span class="at">sig.level =</span> <span class="dv">1</span> <span class="sc">-</span> sig_level)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Chi squared power calculation 
+
+              w = 0.1044358
+              n = 2757
+             df = 1
+      sig.level = 0.05
+          power = 0.9997872
+
+NOTE: n is the number of observations</code></pre>
+</div>
 </div>
 <p>Agresti had a sample size of 2757, but we can ask the question what is the minimum sample size would they need to detect statistical significance? First, we convert the counts to proportions, then we can use the <code>chi_squared_power()</code> function to find the minimum sample size to reject the <em>null</em> hypothesis test.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>M_prob <span class="ot">&lt;-</span> M <span class="sc">/</span> <span class="fu">sum</span>(M) <span class="co"># Convert the counts to percentages</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>csp4 <span class="ot">&lt;-</span> <span class="fu">chi_squared_power</span>(<span class="at">probs =</span> M_prob)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(csp4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>M_prob <span class="ot">&lt;-</span> M <span class="sc">/</span> <span class="fu">sum</span>(M) <span class="co"># Convert the counts to percentages</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>csp4 <span class="ot">&lt;-</span> <span class="fu">chi_squared_power</span>(<span class="at">probs =</span> M_prob)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(csp4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -583,6 +723,7 @@ X-squared = 30.07, df = 2, p-value = 0.0000002954</code></pre>
 </div>
 </div>
 </div>
+<p>For a more robust application for estimating power for many statistical tests, check out the <a href="https://cran.r-project.org/web/packages/pwrss/index.html">pwsrr R package</a> and corresponding <a href="https://pwrss.shinyapps.io/index/">Shiny application</a>.</p>
 
 
 

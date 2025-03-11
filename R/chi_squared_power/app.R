@@ -10,12 +10,12 @@ ui <- fluidPage(
     sidebarLayout(
         sidebarPanel(
         	textOutput('message'),
-        	sliderInput(inputId = 'dimensions',
-        				label = 'Dimensions',
-        				min = 1,
-        				max = 2,
-        				step = 1,
-        				value = 1),
+        	radioButtons(
+        		inputId = 'dimensions',
+        		label = 'Dimensions',
+        		choices = c("One" = 1,
+        					"Two" = 2)
+        	),
             sliderInput(inputId = "k",
                         label = "Number of groups:",
                         min = 2,
@@ -29,18 +29,30 @@ ui <- fluidPage(
         			inputId = 'k2',
         			label = "Number of groups for variable 2",
         			min = 2,
-        			max = 10,
+        			max = 4,
         			value = 2,
         			step = 1
         		)
         	),
+        	# hr(),
+        	# strong("Probabilities"),
+        	# uiOutput('prob_input'),
             actionButton(inputId = 'run',
             			 label = 'Run',
             			 icon = icon('person-running'))
         ),
 
         mainPanel(
-           plotOutput("plot")
+        	tabsetPanel(
+        		tabPanel(
+        			title = 'Prababilities',
+        			uiOutput('prob_input'),
+        		),
+        		tabPanel(
+        			title = 'Plot',
+        			plotOutput("plot")
+        		)
+        	)
         )
     )
 )
@@ -61,6 +73,24 @@ server <- function(input, output) {
 
 	output$prob_input <- renderUI({
 		sliders <- list()
+		n_rows <- input$k
+		n_cols <- ifelse(input$dimensions == 1, 1, input$k2)
+		for(row in 1:n_rows) {
+			row_inputs <- list()
+			for(col in 1:n_cols) {
+				row_inputs[[col]] <- column(
+					width = 12 / n_cols,
+					numericInput(
+						inputId = paste0('prob', row, col),
+						label = "",#paste0(row, ', ', col),
+						min = 0, max = 1,
+						value = 0
+					)
+				)
+			}
+			sliders[[row]] <- do.call(fluidRow, row_inputs)
+		}
+		do.call(div, sliders)
 	})
 
 	output$plot <- renderPlot({

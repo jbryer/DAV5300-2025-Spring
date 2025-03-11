@@ -2,7 +2,7 @@
 title: "Multiple Linear Regression"
 subtitle: "Computational Mathematics and Statistics"
 author: Jason Bryer, Ph.D.
-date: "October 15, 2024"
+date: "March 11, 2025"
 output:
   xaringan::moon_reader:
     css: ["assets/mtheme_max.css", "assets/fonts_mtheme_max.css"]
@@ -55,7 +55,10 @@ class: center, middle, inverse, title-slide
 ```{r, echo=FALSE}
 library(googlesheets4)
 omp <- read_sheet(one_minute_paper_results)
-omp <- omp %>% dplyr::filter(`Class Date` == 'October 08')
+class_date <- rmarkdown::metadata$date
+omp_date <- as.Date(class_date, format = '%B %d, %Y') - 7
+omp_date <- paste0(month(omp_date, label = TRUE, abbr = FALSE), ' ', day(omp_date))
+omp <- omp %>% dplyr::filter(`Class Date` == omp_date)
 ```
 
 .pull-left[
@@ -422,9 +425,14 @@ where *n* is the number of cases and *p* is the number of predictors (explanator
 class: left, font140
 # One Minute Paper
 
-Complete the one minute paper: 
-`r one_minute_paper`
-
+.pull-left[
 1. What was the most important thing you learned during this class?
 2. What important question remains unanswered for you?
+]
+.pull-right[
+```{r, echo=FALSE, fig.width=5, fig.height=5}
+qrcode::qr_code(one_minute_paper) |> plot(col = c('#FAFAFA', 'black'))
+```
+]
 
+`r one_minute_paper`
