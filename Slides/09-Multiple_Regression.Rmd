@@ -420,6 +420,37 @@ where *n* is the number of cases and *p* is the number of predictors (explanator
 * ${ R }_{ adj }^{ 2 }$ applies a penalty for the number of predictors included in the model.
 * Therefore, we choose models with higher ${ R }_{ adj }^{ 2 }$ over others.
 
+---
+# $R^2$ Three Ways
+
+$R^2$ between `mpg` (miles per gallon) and `wt` (weight).
+
+.pull-left[
+1\. Squared correlation
+
+```{r}
+data(mtcars)
+cor(mtcars$mpg, mtcars$wt)^2
+```
+
+2\. Square of the correlation between $y$ and $\hat{y}$.
+
+```{r}
+lm_out <- lm(mpg ~ wt, data = mtcars)
+mtcars$mpg_predicted <- predict(lm_out)
+cor(mtcars$mpg, mtcars$mpg_predicted)^2
+```
+]
+.pull-right[
+3\. $R^2 = \frac{explained \quad variability \quad in \quad y}{total \quad variability \quad in \quad y}$
+
+```{r}
+(anova_out <- anova(lm_out))
+total_ss <- sum((mtcars$mpg - mean(mtcars$mpg))^2)
+sum(anova_out$`Sum Sq`[1]) / total_ss
+```
+]
+
 
 ---
 class: left, font140
