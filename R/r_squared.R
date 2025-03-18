@@ -14,3 +14,6 @@ ggplot(mtcars, aes(x = mpg, y = mpg_predicted)) +
 	coord_equal()
 
 cor(mtcars$mpg_predicted, mtcars$mpg)^2
+
+
+lm(mpg ~ wt * cyl, data = mtcars) |> summary()

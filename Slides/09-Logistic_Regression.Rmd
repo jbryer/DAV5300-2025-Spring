@@ -2,7 +2,7 @@
 title: "Maximum Likelihood Estimation and Logistic Regression"
 subtitle: "Computational Mathematics and Statistics"
 author: Jason Bryer, Ph.D.
-date: "October 22, 2024"
+date: "March 18, 2025"
 output:
   xaringan::moon_reader:
     css: ["assets/mtheme_max.css", "assets/fonts_mtheme_max.css"]
@@ -46,6 +46,23 @@ class: center, middle, inverse, title-slide
 ## `r metadata$subtitle`
 ### `r metadata$author`
 ### `r metadata$date`
+
+---
+# Data Project
+
+.pull-left[
+Please see [spring2025.dav5300.net/assignments/project.html](spring2025.dav5300.net/assignments/project.html) for details on the project proposal.
+
+Please sign-up for a time to meet with me (via Zoom) on April 1st or 2nd to discuss your project. Please have your proposal ready (template on the course website) and come prepared with questions. 
+
+
+]
+.pull-right[
+```{r, echo=FALSE, fig.width=5, fig.height=5}
+qrcode::qr_code('https://docs.google.com/spreadsheets/d/10LjOldtCQaBY5yhSbKuP2mYImF3xo33G4ozHaQ_yZ74/edit?usp=sharing') |> plot(col = c('#FAFAFA', 'black'))
+```
+[Scan the QR code or click here to sign-up](https://docs.google.com/spreadsheets/d/10LjOldtCQaBY5yhSbKuP2mYImF3xo33G4ozHaQ_yZ74/edit?usp=sharing)
+]
 
 ---
 
