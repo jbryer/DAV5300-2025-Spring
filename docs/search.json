@@ -238,7 +238,7 @@
     "href": "assignments/project.html#project-proposal",
     "title": "Project",
     "section": "Project Proposal",
-    "text": "Project Proposal\nThe proposal can be more informal using bullet points where necessary and include R code and output. You must address the following areas:\n\nResearch question\nWhat are the cases, and how many are there?\nDescribe the method of data collection.\nWhat type of study is this (observational/experiment)?\nData Source: If you collected the data, state self-collected. If not, provide a citation/link.\nResponse: What is the response variable, and what type is it (numerical/categorical)?\nExplanatory: What is the explanatory variable(s), and what type is it (numerical/categorical)?\nRelevant summary statistics",
+    "text": "Project Proposal\nThe proposal can be more informal using bullet points where necessary and include R code and output. You must address the following areas:\n\nResearch question\nWhat are the cases, and how many are there?\nDescribe the method of data collection.\nWhat type of study is this (observational/experiment)?\nData Source: If you collected the data, state self-collected. If not, provide a citation/link.\nResponse: What is the response variable, and what type is it (numerical/categorical)?\nExplanatory: What is the explanatory variable(s), and what type is it (numerical/categorical)?\nRelevant summary statistics\nWhat statistical method will you use?",
     "crumbs": [
       "Course information",
       "Data Project"

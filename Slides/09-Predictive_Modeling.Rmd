@@ -580,7 +580,7 @@ class: font90
 
 --
 
-- [Gallup](https://news.gallup.com/poll/234863/estimate-lgbt-population-rises.aspx) (2018) poll estimates that 4.5% of the Americal population identifies as LGBT.
+- [Gallup](https://news.gallup.com/poll/234863/estimate-lgbt-population-rises.aspx) (2018) poll estimates that 4.5% of the Americal population identifies as LGBTG+.
 
 --
 
