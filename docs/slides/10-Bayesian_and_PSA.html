@@ -149,7 +149,7 @@ head(n_fish, n=10)
 ```
 
 ```
-##  [1] 211 103 179 136 185 244 186  60 220  29
+##  [1] 223 190 191 149 115 231 129 156 217 249
 ```
 
 ``` r
@@ -163,6 +163,8 @@ hist(n_fish, main="Prior Distribution")
 
 Step 2: Plug in each draw into the generative model which generates "fake" data.
 
+.pull-left[
+
 
 ``` r
 pick_fish &lt;- function(n_fish) { # The generative model
@@ -173,12 +175,33 @@ n_marked &lt;- rep(NA, n_draw)
 for(i in 1:n_draw) {
 	n_marked[i] &lt;- pick_fish(n_fish[i])
 }
-head(n_marked, n=10)
+```
+
+]
+.pull-right[
+
+
+``` r
+cbind(caught_twice = head(n_marked, n=10),
+	  pop_est = head(n_fish, n=10)
+)
 ```
 
 ```
-##  [1]  3  3  0  3  4  1  1  7  3 14
+##       caught_twice pop_est
+##  [1,]            1     223
+##  [2,]            3     190
+##  [3,]            2     191
+##  [4,]            2     149
+##  [5,]            3     115
+##  [6,]            3     231
+##  [7,]            5     129
+##  [8,]            1     156
+##  [9,]            1     217
+## [10,]            2     249
 ```
+
+]
 
 ---
 # Strategy for fitting a model
@@ -188,12 +211,20 @@ Step 3: Keep only those parameter values that generated the data that was actual
 
 ``` r
 post_fish &lt;- n_fish[n_marked == 5]
+length(post_fish)
+```
+
+```
+## [1] 8197
+```
+
+``` r
 hist(post_fish, main='Posterior Distribution')
 abline(v=median(post_fish), col='red')
 abline(v=quantile(post_fish, probs=c(.25, .75)), col='green')
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # What if we have better prior information?
@@ -206,7 +237,7 @@ n_fish &lt;- rnbinom(n_draw, mu = 200 - 20, size = 4) + 20
 hist(n_fish, main='Prior Distribution')
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # What if we have better prior information? 
@@ -223,7 +254,7 @@ abline(v=median(post_fish), col='red')
 abline(v=quantile(post_fish, probs=c(.25, .75)), col='green')
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Bayes Billiards Balls
@@ -237,6 +268,144 @@ DATA606::shiny_demo('BayesBilliards', package='DATA606')
 
 See also: http://www.bryer.org/post/2016-02-21-bayes_billiards_shiny/
 
+---
+# Bayesian Regression
+
+
+
+Returning to the `study` example from the logistic regression lecture, we can use the `stan_glm` function from the `rstanarm` R package.
+
+.pull-left[
+**Bayesian GLM**
+
+
+``` r
+stan_out &lt;- rstanarm::stan_glm(
+	Pass ~ Hours,
+	data = study,
+	family = binomial(link = "logit"),
+	seed = 2112, 
+	refresh = 0)
+```
+
+]
+
+.pull-right[
+**Frequentist GLM**
+
+
+``` r
+glm_out &lt;- glm(
+	Pass ~ Hours,
+	data = study,
+	family = binomial(link = 'logit')
+)
+```
+
+]
+
+
+---
+class: font80
+# Bayesian Regression (cont.)
+
+.pull-left[
+**Bayesian GLM**
+
+
+``` r
+summary(stan_out, pars = c("alpha", "beta"))
+```
+
+```
+## 
+## Model Info:
+##  function:     stan_glm
+##  family:       binomial [logit]
+##  formula:      Pass ~ Hours
+##  algorithm:    sampling
+##  sample:       4000 (posterior sample size)
+##  priors:       see help('prior_summary')
+##  observations: 20
+##  predictors:   2
+## 
+## Estimates:
+##               mean   sd   10%   50%   90%
+## (Intercept) -4.3    1.6 -6.4  -4.1  -2.3 
+## Hours        1.6    0.6  0.9   1.5   2.3 
+## 
+## MCMC diagnostics
+##             mcse Rhat n_eff
+## (Intercept) 0.0  1.0  2405 
+## Hours       0.0  1.0  2317 
+## 
+## For each parameter, mcse is Monte Carlo standard error, n_eff is a crude measure of effective sample size, and Rhat is the potential scale reduction factor on split chains (at convergence Rhat=1).
+```
+
+]
+
+.pull-right[
+
+**Frequentist GLM**
+
+
+``` r
+summary(glm_out)
+```
+
+```
+## 
+## Call:
+## glm(formula = Pass ~ Hours, family = binomial(link = "logit"), 
+##     data = study)
+## 
+## Coefficients:
+##             Estimate Std. Error z value Pr(&gt;|z|)  
+## (Intercept)  -4.0777     1.7610  -2.316   0.0206 *
+## Hours         1.5046     0.6287   2.393   0.0167 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 27.726  on 19  degrees of freedom
+## Residual deviance: 16.060  on 18  degrees of freedom
+## AIC: 20.06
+## 
+## Number of Fisher Scoring iterations: 5
+```
+
+]
+
+---
+# Plotting output
+
+.pull-left[
+**Bayesian GLM**
+
+
+``` r
+plot(stan_out, 
+	 plotfun = 'areas',
+	 prob = 0.68)
+```
+
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-15-1.png" style="display: block; margin: auto;" /&gt;
+
+]
+.pull-right[
+**Frequentist GLM**
+
+
+``` r
+jtools::plot_summs(glm_out, 
+				   plot.distributions = TRUE, 
+				   inner_ci_level = .68, omit.coefs = NULL)
+```
+
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+]
 ---
 class: middle, center, inverse
 # Propensity Score Analysis
@@ -318,17 +487,17 @@ tab.out &lt;- describeBy(thedata$RCT_Value, group = thedata$RCT_Assignment, mat 
 
 
 .pull-left[
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 # True Counterfactual (left) vs. One RCT (right)
 
 .pull-left[
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -336,10 +505,10 @@ tab.out &lt;- describeBy(thedata$RCT_Value, group = thedata$RCT_Assignment, mat 
 # True Counterfactual (left) vs. One RCT (right)
 
 .pull-left[
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -457,7 +626,7 @@ ggplot(dat, aes(x = x1, y = x2, shape = x3, color = factor(treatment))) +
 	geom_point() + scale_color_manual('Treatment', values = cols)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-24-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -485,7 +654,7 @@ Stratification involves dividing (or stratifying) the observations into subgroup
 
 
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-19-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-27-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -493,7 +662,7 @@ Stratification involves dividing (or stratifying) the observations into subgroup
 
 Independent sample tests (e.g. *t*-tests) are conducted within each stratum and pooled to provide an overall estimate.
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -501,7 +670,7 @@ Independent sample tests (e.g. *t*-tests) are conducted within each stratum and 
 
 Dependent sample tests (e.g. *t*-tests) are conducted using match pairs to provide a treatment.
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-21-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Matching Methods
@@ -527,7 +696,7 @@ There are many choices and approaches to matching, including:
 Propensity score weights can be used as regression weights, the specific weights depend on the desired estimand and will be provided in later slides.
 
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-22-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Shiny Application
@@ -614,7 +783,7 @@ ggplot(dat) +
 	geom_hline(yintercept = 0, lwd = 0.5) +	scale_y_continuous(label = abs) 
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-28-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -625,7 +794,7 @@ ggplot(dat) +
 PSAgraphics::cv.bal.psa(dat[,1:3], dat$treatment, dat$ps, strata = 5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-29-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-37-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Check Balance: Single Covariate
@@ -638,7 +807,7 @@ PSAgraphics::box.psa(dat$x1,
 					 dat$strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-30-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-38-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -648,35 +817,10 @@ PSAgraphics::cat.psa(dat$x3,
 					 dat$strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-31-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-39-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
----
-# PS Weights for Understanding Treatment Effects
 
-Given that the distribution of treatment and control observations across the propensity score range are not the same, there are a number of alternative estimates of treatment effect. We will explore three additional esimates in addition to the classic average treatment effect.
-
-
-``` r
-dat &lt;- dat |&gt; mutate(
-	ate_weight = psa::calculate_ps_weights(treatment, ps, estimand = 'ATE'),
-	att_weight = psa::calculate_ps_weights(treatment, ps, estimand = 'ATT'),
-	atc_weight = psa::calculate_ps_weights(treatment, ps, estimand = 'ATC'),
-	atm_weight = psa::calculate_ps_weights(treatment, ps, estimand = 'ATM')
-)
-dat |&gt; head(n = 4)
-```
-
-```
-## # A tibble: 4 × 11
-##      x1    x2 x3    treatment outcome    ps strata5 ate_weight att_weight
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;lgl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;fct&gt;        &lt;dbl&gt;      &lt;dbl&gt;
-## 1 1.35  0.744 FALSE         0  1.46   0.725 C             3.63       2.63
-## 2 0.149 1.55  TRUE          0 -0.924  0.790 D             4.76       3.76
-## 3 2.47  2.39  TRUE          1 -0.0527 0.982 E             1.02       1   
-## 4 2.29  1.66  TRUE          1  1.05   0.922 D             1.08       1   
-## # ℹ 2 more variables: atc_weight &lt;dbl&gt;, atm_weight &lt;dbl&gt;
-```
 
 
 ---
@@ -684,27 +828,8 @@ dat |&gt; head(n = 4)
 
 `$$ATE = E(Y_1 - Y_0 | X) = E(Y_1|X) - E(Y_0|X)$$`
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-33-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-40-1.png" style="display: block; margin: auto;" /&gt;
 
----
-# Average Treatment Effect Among the Treated (ATT)
-
-`$$ATT=E(Y_{1}-Y_{0}|X,C=1)=E(Y_{1}|X,C=1)-E(Y_{0}|X,C=1)$$`
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-34-1.png" style="display: block; margin: auto;" /&gt;
-
----
-# Average Treatment Effect Among the Control (ATC)
-
-`$$ATC = E(Y_1 - Y_0 | X = 0) = E(Y_1 | X = 0) - E(Y_0 | X = 0)$$`
-
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-35-1.png" style="display: block; margin: auto;" /&gt;
-
----
-# Average Treatment Effect Among the Evenly Matched
-
-`$$ATM_d = E(Y_1 - Y_0 | M_d = 1)$$`
-
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-36-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 # Treatment Effects for Weighting
@@ -728,7 +853,6 @@ Where `\(w\)` is the weight (as defined in the following sections), `\(Z_i\)` is
 class: font90
 # Treatment Effects
 
-.pull-left[
 .font80[**Average Treatment Effect**]
 
 ``` r
@@ -758,107 +882,8 @@ lm(outcome ~ treatment,
 ## (Intercept)    treatment  
 ##      -0.044        1.337
 ```
-]
-.pull-right[
-.font80[**Average Treatment Effect Among the Treated**]
-
-``` r
-psa::treatment_effect(
-	treatment = dat$treatment, 
-	outcome = dat$outcome, 
-	weights = dat$att_weight)
-```
-
-```
-## [1] 1.447406
-```
 
 
-``` r
-lm(outcome ~ treatment, 
-   data = dat, 
-   weights = dat$att_weight)
-```
-
-```
-## 
-## Call:
-## lm(formula = outcome ~ treatment, data = dat, weights = dat$att_weight)
-## 
-## Coefficients:
-## (Intercept)    treatment  
-##    -0.07002      1.44741
-```
-
-]
-
----
-class: font90
-# Treatment Effects (cont.)
-
-.pull-left[
-.font80[**Average Treatment Effect Among the Control**]
-
-``` r
-psa::treatment_effect(
-	treatment = dat$treatment, 
-	outcome = dat$outcome, 
-	weights = dat$atc_weight)
-```
-
-```
-## [1] 1.157861
-```
-
-
-``` r
-lm(outcome ~ treatment, 
-   data = dat, 
-   weights = dat$atc_weight)
-```
-
-```
-## 
-## Call:
-## lm(formula = outcome ~ treatment, data = dat, weights = dat$atc_weight)
-## 
-## Coefficients:
-## (Intercept)    treatment  
-##    0.002491     1.157861
-```
-]
-.pull-right[
-.font80[**Average Treatment Effect Among the Evenly Matched**]
-
-``` r
-psa::treatment_effect(
-	treatment = dat$treatment, 
-	outcome = dat$outcome, 
-	weights = dat$atm_weight)
-```
-
-```
-## [1] 1.370067
-```
-
-
-``` r
-lm(outcome ~ treatment, 
-   data = dat, 
-   weights = dat$atm_weight)
-```
-
-```
-## 
-## Call:
-## lm(formula = outcome ~ treatment, data = dat, weights = dat$atm_weight)
-## 
-## Coefficients:
-## (Intercept)    treatment  
-##    -0.02388      1.37007
-```
-
-]
 ---
 class: inverse, middle, center
 # Example: National Supported Work Demonstration
@@ -989,7 +1014,7 @@ cv.bal.psa(covars, lalonde$treat, lalonde$ps, strata = 5)
 box.psa(lalonde$age, lalonde$treat, strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-48-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -997,7 +1022,7 @@ box.psa(lalonde$age, lalonde$treat, strata5)
 box.psa(lalonde$re74, lalonde$treat, strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-49-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 
@@ -1010,7 +1035,7 @@ box.psa(lalonde$re74, lalonde$treat, strata5)
 box.psa(lalonde$educ, lalonde$treat, strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-52-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-50-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 .pull-right[
@@ -1019,7 +1044,7 @@ box.psa(lalonde$educ, lalonde$treat, strata5)
 box.psa(lalonde$re75, lalonde$treat, strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-51-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1031,7 +1056,7 @@ box.psa(lalonde$re75, lalonde$treat, strata5)
 cat.psa(lalonde$married, lalonde$treat, strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-52-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -1039,7 +1064,7 @@ cat.psa(lalonde$married, lalonde$treat, strata5)
 cat.psa(lalonde$hisp, lalonde$treat, strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-55-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-53-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1051,7 +1076,7 @@ cat.psa(lalonde$hisp, lalonde$treat, strata5)
 cat.psa(lalonde$black, lalonde$treat, strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-54-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -1059,7 +1084,7 @@ cat.psa(lalonde$black, lalonde$treat, strata5)
 cat.psa(lalonde$nodegr, lalonde$treat, strata5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-57-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-55-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1079,7 +1104,7 @@ psa::stratification_plot(ps = psadf$ps,
 						 n_strata = 5)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-58-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-56-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .pull-right[
 
@@ -1090,7 +1115,7 @@ psa::stratification_plot(ps = psadf$ps,
 						 n_strata = 10)
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-59-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-57-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1252,7 +1277,7 @@ psa::MatchBalance(df = lalonde, formu = lalonde.formu,
 				  M = 1, estimand = 'ATT', ties = FALSE) |&gt; plot()
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-63-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-61-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -1266,125 +1291,20 @@ psa::MatchBalance(df = lalonde, formu = lalonde.formu,
 				  M = 1, estimand = 'ATT', ties = FALSE) |&gt; plot()
 ```
 
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-64-1.png" style="display: block; margin: auto;" /&gt;
-
-
----
-class: inverse, middle, center
-# Sensitivity Analysis
-
-&lt;!-- Some of this section is from http://sekhon.berkeley.edu/causalinf/fa2013/Section/Section11Slides.pdf --&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-62-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
-# Sensitivity Analysis
+# Additional Resources
 
-* An observational study is free of hidden bias if the propensity scores for each subject depend only on the observed covariates.
-* That is, the *p*-value is valid *if* there are no unobserved confounders.
-* However, there are very likely covariates that would better model treatment. These introduce hidden bias.
-* Hidden bias exists if two subjects have the same covariates, but different propensity scores.
+* Propensity Score R Package and Book: [psa.bryer.org](https://psa.bryer.org)
 
-`\(X_a = X_b\)` but `\({ \pi  }_{ a }\neq { \pi  }_{ b }\)` for some a and b.
+* PSA talk for the NYC R Meetup Group: [bryer.org/posts/2023-11-14-Intro_to_PSA.html](https://bryer.org/posts/2023-11-14-Intro_to_PSA.html)
 
-
-
----
-# Sensitivity Analysis
-
-Each person in the treatment is matched to exactly one person in the control. The odds of being in the treatment for persons a and b are:
-
-
-`\(O_a = \frac{  \pi_a }{ 1 - \pi_a }\)` and `\(O_b = \frac{  \pi_b }{ 1 - \pi_b }\)`
-
-The ratio of these odds, `\(\Gamma\)`, measures the bias after matching.
-
-`$$\Gamma =\frac { { O }_{ a } }{ { O }_{ b } } =\frac { { { \pi  }_{ a } / ( }{ 1-{ \pi  }_{ a }) } }{ { { \pi  }_{ b } / (1-{ \pi  }_{ b }) } }$$`
-   
-This is the ratio of the odds the treated unit being in the treatment group to the matched control unit being in the treatment group.
-
-
-
----
-# Sensitivity Analysis
-
-Sensitivity analysis tests whether the results hold for various ranges of `\(\Gamma\)`. That is, we test how large the differences in `\(\pi\)` (i.e. propensity scores) would have to be to change our basic inference. Let `\(p_a\)` and `\(p_b\)` be the probability of each unit of the matched pair being treated, conditional on exactly one being treated. For example:
-
-* If `\(\Gamma = 1\)`, the treatment and control unit within each pair has the same value of treatment assignment ( `\(p_a = 0.5\)` and `\(p_b = 0.5\)`).
-* If `\(\frac{1}{2} \le \Gamma \le 2\)`, no unit can be more than twice as likely as its match to get treated ( `\(0.33 \le p_a\)`, `\(p_b \le 0.66\)`).
-* If `\(\frac{1}{3} \le \Gamma \le 3\)`, no unit can be more than three times as likely as its match to get treated ( `\(0.25 \le p_a\)`, `\(p_b \le 0.75\)`)
-
-To get the bounds:
-
-$$ \frac{1}{\Gamma +1 } \le p_a, p_b \le \frac{\Gamma}{\Gamma +1} $$
-
-
----
-# Wilcoxon Signed Rank Test
-
-* Drop pairs where the matches have the same outcome.
-
-* Calculate the difference in outcomes within each pair.
-
-* Rank the pairs from smallest absolute difference to largest absolute difference (i.e. the smallest = 1).
-
-* Take the sum of the ranks where the treated unit had the higher outcome.
-
-`$$W=\left| \sum _{ 1 }^{ { N }_{ r } }{ sgn({ x }_{ T,i }-{ x }_{ C,i })\cdot { R }_{ i } }  \right|$$`
-Where `\(N\)` is the number of ranked pairs; `\(R_i\)` is the rank for pair *r*; `\(x_{T,i}\)` and `\(x_{C,i}\)` are the outcomes for the `\(i^{th}\)` treated and control pair, respectively.
-
-
-
----
-# Sensitivity Analysis
-
-The process for sensitivity analysis:
-
-* Select a series of values for `\(\Gamma\)`. For social science research, values between 1 and 2 is an appropriate start.
-
-* For each `\(\Gamma\)`, estimate the *p*-values to see how the *p*-values increase for larger values of `\(\Gamma\)`.
-
-* For binary outcomes, use McNemar's test, for all others use Wilcoxon sign rank test and the Hodges-Lehmann point estimate. See Keele (2010) for more information.
-
-
-
----
-# Sensitivity Analysis
-
-Children of parents who had worked in a factory where lead was used in making batteries were matched by age, exposure to traffic, and neighborhood with children whose parents did not work in lead-related industries. Whole blood was assessed for lead content yielding measurements in mg/dl
-
-
-``` r
-require(rbounds)
-psens(lalonde$re78[rr$index.treated], 
-	  lalonde$re78[rr$index.control],
-	  Gamma = 2, GammaInc = 0.1)
-```
-
-```
-## 
-##  Rosenbaum Sensitivity Test for Wilcoxon Signed Rank P-Value 
-##  
-## Unconfounded estimate ....  2e-04 
-## 
-##  Gamma Lower bound Upper bound
-##    1.0       2e-04      0.0002
-##    1.1       0e+00      0.0016
-##    1.2       0e+00      0.0069
-##    1.3       0e+00      0.0215
-##    1.4       0e+00      0.0527
-##    1.5       0e+00      0.1066
-##    1.6       0e+00      0.1851
-##    1.7       0e+00      0.2846
-##    1.8       0e+00      0.3968
-##    1.9       0e+00      0.5117
-##    2.0       0e+00      0.6199
-## 
-##  Note: Gamma is Odds of Differential Assignment To
-##  Treatment Due to Unobserved Factors 
-## 
-```
-
-
-
+* R Packages
+	* `PSAgraphics` - https://github.com/jbryer/PSAgraphics
+	* `multilevelPSA` - https://github.com/jbryer/multilevelPSA
+	* `TriMatch` - https://jbryer.github.io/TriMatch
+	* `PSAboot` - https://github.com/jbryer/PSAboot
 
 ---
 class: left, font140
@@ -1395,7 +1315,7 @@ class: left, font140
 2. What important question remains unanswered for you?
 ]
 .pull-right[
-&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-65-1.png" style="display: block; margin: auto;" /&gt;
+&lt;img src="10-Bayesian_and_PSA_files/figure-html/unnamed-chunk-63-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 https://forms.gle/sTwKB3HivjtbafBb7

@@ -179,6 +179,8 @@ hist(n_fish, main="Prior Distribution")
 
 Step 2: Plug in each draw into the generative model which generates "fake" data.
 
+.pull-left[
+
 ```{r}
 pick_fish <- function(n_fish) { # The generative model
 	fish <- rep(0:1, c(n_fish - 20, 20))
@@ -188,8 +190,18 @@ n_marked <- rep(NA, n_draw)
 for(i in 1:n_draw) {
 	n_marked[i] <- pick_fish(n_fish[i])
 }
-head(n_marked, n=10)
 ```
+
+]
+.pull-right[
+
+```{r}
+cbind(caught_twice = head(n_marked, n=10),
+	  pop_est = head(n_fish, n=10)
+)
+```
+
+]
 
 ---
 # Strategy for fitting a model
@@ -198,6 +210,7 @@ Step 3: Keep only those parameter values that generated the data that was actual
 
 ```{r, fig.width=8, fig.height=3.5}
 post_fish <- n_fish[n_marked == 5]
+length(post_fish)
 hist(post_fish, main='Posterior Distribution')
 abline(v=median(post_fish), col='red')
 abline(v=quantile(post_fish, probs=c(.25, .75)), col='green')
@@ -238,6 +251,94 @@ DATA606::shiny_demo('BayesBilliards', package='DATA606')
 
 See also: http://www.bryer.org/post/2016-02-21-bayes_billiards_shiny/
 
+---
+# Bayesian Regression
+
+```{r, echo=FALSE}
+library(rstanarm)
+study <- data.frame(
+	Hours=c(0.50,0.75,1.00,1.25,1.50,1.75,1.75,2.00,2.25,2.50,2.75,3.00,
+			3.25,3.50,4.00,4.25,4.50,4.75,5.00,5.50),
+	Pass=c(0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1)
+)
+```
+
+Returning to the `study` example from the logistic regression lecture, we can use the `stan_glm` function from the `rstanarm` R package.
+
+.pull-left[
+**Bayesian GLM**
+
+```{r}
+stan_out <- rstanarm::stan_glm(
+	Pass ~ Hours,
+	data = study,
+	family = binomial(link = "logit"),
+	seed = 2112, 
+	refresh = 0)
+```
+
+]
+
+.pull-right[
+**Frequentist GLM**
+
+```{r}
+glm_out <- glm(
+	Pass ~ Hours,
+	data = study,
+	family = binomial(link = 'logit')
+)
+```
+
+]
+
+
+---
+class: font80
+# Bayesian Regression (cont.)
+
+.pull-left[
+**Bayesian GLM**
+
+```{r}
+summary(stan_out, pars = c("alpha", "beta"))
+```
+
+]
+
+.pull-right[
+
+**Frequentist GLM**
+
+```{r}
+summary(glm_out)
+```
+
+]
+
+---
+# Plotting output
+
+.pull-left[
+**Bayesian GLM**
+
+```{r}
+plot(stan_out, 
+	 plotfun = 'areas',
+	 prob = 0.68)
+```
+
+]
+.pull-right[
+**Frequentist GLM**
+
+```{r}
+jtools::plot_summs(glm_out, 
+				   plot.distributions = TRUE, 
+				   inner_ci_level = .68, omit.coefs = NULL)
+```
+
+]
 ---
 class: middle, center, inverse
 # Propensity Score Analysis
@@ -730,20 +831,7 @@ PSAgraphics::cat.psa(dat$x3,
 ```
 ]
 
----
-# PS Weights for Understanding Treatment Effects
 
-Given that the distribution of treatment and control observations across the propensity score range are not the same, there are a number of alternative estimates of treatment effect. We will explore three additional esimates in addition to the classic average treatment effect.
-
-```{r}
-dat <- dat |> mutate(
-	ate_weight = psa::calculate_ps_weights(treatment, ps, estimand = 'ATE'),
-	att_weight = psa::calculate_ps_weights(treatment, ps, estimand = 'ATT'),
-	atc_weight = psa::calculate_ps_weights(treatment, ps, estimand = 'ATC'),
-	atm_weight = psa::calculate_ps_weights(treatment, ps, estimand = 'ATM')
-)
-dat |> head(n = 4)
-```
 
 
 ---
@@ -770,76 +858,6 @@ ggplot() +
 	ggtitle('Average Treatment Effect (ATE)')
 ```
 
----
-# Average Treatment Effect Among the Treated (ATT)
-
-$$ATT=E(Y_{1}-Y_{0}|X,C=1)=E(Y_{1}|X,C=1)-E(Y_{0}|X,C=1)$$
-```{r, echo=FALSE}
-ggplot() +
-	geom_histogram(data = dat[dat$treatment == 1,],
-				   aes(x = ps, y = after_stat(count)),
-				   bins = 50, alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 1,],
-				   aes(x = ps, weight = att_weight, y = after_stat(count)),
-				   bins = 50, 
-				   fill = cols[2], alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 0,],
-				   aes(x = ps, y = -after_stat(count)),
-				   bins = 50, alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 0,],
-				   aes(x = ps, weight = att_weight, y = -after_stat(count)),
-				   bins = 50, 
-				   fill = cols[1], alpha = 0.5) +
-	ggtitle('Average Treatment Effect Among the Treated (ATT)')
-```
-
----
-# Average Treatment Effect Among the Control (ATC)
-
-$$ATC = E(Y_1 - Y_0 | X = 0) = E(Y_1 | X = 0) - E(Y_0 | X = 0)$$
-
-```{r, echo=FALSE}
-ggplot() +
-	geom_histogram(data = dat[dat$treatment == 1,],
-				   aes(x = ps, y = after_stat(count)),
-				   bins = 50, alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 1,],
-				   aes(x = ps, weight = atc_weight, y = after_stat(count)),
-				   bins = 50, 
-				   fill = cols[2], alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 0,],
-				   aes(x = ps, y = -after_stat(count)),
-				   bins = 50, alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 0,],
-				   aes(x = ps, weight = atc_weight, y = -after_stat(count)),
-				   bins = 50, 
-				   fill = cols[1], alpha = 0.5) +
-	ggtitle('Average Treatment Effect Among the Control (ATC)')
-```
-
----
-# Average Treatment Effect Among the Evenly Matched
-
-$$ATM_d = E(Y_1 - Y_0 | M_d = 1)$$
-
-```{r, echo=FALSE}
-ggplot() +
-	geom_histogram(data = dat[dat$treatment == 1,],
-				   aes(x = ps, y = after_stat(count)),
-				   bins = 50, alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 1,],
-				   aes(x = ps, weight = atm_weight, y = after_stat(count)),
-				   bins = 50, 
-				   fill = cols[2], alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 0,],
-				   aes(x = ps, y = -after_stat(count)),
-				   bins = 50, alpha = 0.5) +
-	geom_histogram(data = dat[dat$treatment == 0,],
-				   aes(x = ps, weight = atm_weight, y = -after_stat(count)),
-				   bins = 50, 
-				   fill = cols[1], alpha = 0.5) +
-	ggtitle('Average Treatment Effect Among the Evenly Matched (ACM)')
-```
 
 ---
 # Treatment Effects for Weighting
@@ -863,7 +881,6 @@ $$w_{ATM} = \frac{min\{\pi_i, 1 - \pi_i\}}{Z_i \pi_i (1 - Z_i)(1 - \pi_i)}$$
 class: font90
 # Treatment Effects
 
-.pull-left[
 .font80[**Average Treatment Effect**]
 ```{r}
 psa::treatment_effect(
@@ -877,59 +894,8 @@ lm(outcome ~ treatment,
    data = dat, 
    weights = dat$ate_weight)
 ```
-]
-.pull-right[
-.font80[**Average Treatment Effect Among the Treated**]
-```{r}
-psa::treatment_effect(
-	treatment = dat$treatment, 
-	outcome = dat$outcome, 
-	weights = dat$att_weight)
-```
 
-```{r}
-lm(outcome ~ treatment, 
-   data = dat, 
-   weights = dat$att_weight)
-```
 
-]
-
----
-class: font90
-# Treatment Effects (cont.)
-
-.pull-left[
-.font80[**Average Treatment Effect Among the Control**]
-```{r}
-psa::treatment_effect(
-	treatment = dat$treatment, 
-	outcome = dat$outcome, 
-	weights = dat$atc_weight)
-```
-
-```{r}
-lm(outcome ~ treatment, 
-   data = dat, 
-   weights = dat$atc_weight)
-```
-]
-.pull-right[
-.font80[**Average Treatment Effect Among the Evenly Matched**]
-```{r}
-psa::treatment_effect(
-	treatment = dat$treatment, 
-	outcome = dat$outcome, 
-	weights = dat$atm_weight)
-```
-
-```{r}
-lm(outcome ~ treatment, 
-   data = dat, 
-   weights = dat$atm_weight)
-```
-
-]
 ---
 class: inverse, middle, center
 # Example: National Supported Work Demonstration
@@ -1187,98 +1153,18 @@ psa::MatchBalance(df = lalonde, formu = lalonde.formu,
 				  M = 1, estimand = 'ATT', ties = FALSE) |> plot()
 ```
 
-
 ---
-class: inverse, middle, center
-# Sensitivity Analysis
+# Additional Resources
 
-<!-- Some of this section is from http://sekhon.berkeley.edu/causalinf/fa2013/Section/Section11Slides.pdf -->
+* Propensity Score R Package and Book: [psa.bryer.org](https://psa.bryer.org)
 
----
-# Sensitivity Analysis
+* PSA talk for the NYC R Meetup Group: [bryer.org/posts/2023-11-14-Intro_to_PSA.html](https://bryer.org/posts/2023-11-14-Intro_to_PSA.html)
 
-* An observational study is free of hidden bias if the propensity scores for each subject depend only on the observed covariates.
-* That is, the *p*-value is valid *if* there are no unobserved confounders.
-* However, there are very likely covariates that would better model treatment. These introduce hidden bias.
-* Hidden bias exists if two subjects have the same covariates, but different propensity scores.
-
-$X_a = X_b$ but ${ \pi  }_{ a }\neq { \pi  }_{ b }$ for some a and b.
-
-
-
----
-# Sensitivity Analysis
-
-Each person in the treatment is matched to exactly one person in the control. The odds of being in the treatment for persons a and b are:
-
-
-$O_a = \frac{  \pi_a }{ 1 - \pi_a }$ and $O_b = \frac{  \pi_b }{ 1 - \pi_b }$
-
-The ratio of these odds, $\Gamma$, measures the bias after matching.
-
-$$\Gamma =\frac { { O }_{ a } }{ { O }_{ b } } =\frac { { { \pi  }_{ a } / ( }{ 1-{ \pi  }_{ a }) } }{ { { \pi  }_{ b } / (1-{ \pi  }_{ b }) } }$$
-   
-This is the ratio of the odds the treated unit being in the treatment group to the matched control unit being in the treatment group.
-
-
-
----
-# Sensitivity Analysis
-
-Sensitivity analysis tests whether the results hold for various ranges of $\Gamma$. That is, we test how large the differences in $\pi$ (i.e. propensity scores) would have to be to change our basic inference. Let $p_a$ and $p_b$ be the probability of each unit of the matched pair being treated, conditional on exactly one being treated. For example:
-
-* If $\Gamma = 1$, the treatment and control unit within each pair has the same value of treatment assignment ( $p_a = 0.5$ and $p_b = 0.5$).
-* If $\frac{1}{2} \le \Gamma \le 2$, no unit can be more than twice as likely as its match to get treated ( $0.33 \le p_a$, $p_b \le 0.66$).
-* If $\frac{1}{3} \le \Gamma \le 3$, no unit can be more than three times as likely as its match to get treated ( $0.25 \le p_a$, $p_b \le 0.75$)
-
-To get the bounds:
-
-$$ \frac{1}{\Gamma +1 } \le p_a, p_b \le \frac{\Gamma}{\Gamma +1} $$
-
-
----
-# Wilcoxon Signed Rank Test
-
-* Drop pairs where the matches have the same outcome.
-
-* Calculate the difference in outcomes within each pair.
-
-* Rank the pairs from smallest absolute difference to largest absolute difference (i.e. the smallest = 1).
-
-* Take the sum of the ranks where the treated unit had the higher outcome.
-
-$$W=\left| \sum _{ 1 }^{ { N }_{ r } }{ sgn({ x }_{ T,i }-{ x }_{ C,i })\cdot { R }_{ i } }  \right|$$
-Where $N$ is the number of ranked pairs; $R_i$ is the rank for pair *r*; $x_{T,i}$ and $x_{C,i}$ are the outcomes for the $i^{th}$ treated and control pair, respectively.
-
-
-
----
-# Sensitivity Analysis
-
-The process for sensitivity analysis:
-
-* Select a series of values for $\Gamma$. For social science research, values between 1 and 2 is an appropriate start.
-
-* For each $\Gamma$, estimate the *p*-values to see how the *p*-values increase for larger values of $\Gamma$.
-
-* For binary outcomes, use McNemar's test, for all others use Wilcoxon sign rank test and the Hodges-Lehmann point estimate. See Keele (2010) for more information.
-
-
-
----
-# Sensitivity Analysis
-
-Children of parents who had worked in a factory where lead was used in making batteries were matched by age, exposure to traffic, and neighborhood with children whose parents did not work in lead-related industries. Whole blood was assessed for lead content yielding measurements in mg/dl
-
-```{r rboundsSetup}
-require(rbounds)
-psens(lalonde$re78[rr$index.treated], 
-	  lalonde$re78[rr$index.control],
-	  Gamma = 2, GammaInc = 0.1)
-```
-
-
-
+* R Packages
+	* `PSAgraphics` - https://github.com/jbryer/PSAgraphics
+	* `multilevelPSA` - https://github.com/jbryer/multilevelPSA
+	* `TriMatch` - https://jbryer.github.io/TriMatch
+	* `PSAboot` - https://github.com/jbryer/PSAboot
 
 ---
 class: left, font140
